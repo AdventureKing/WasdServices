@@ -15,6 +15,7 @@ public class Driver {
 		//test print
 		//System.out.println(csgoCall.getFeedResults().toString() + "\n");
 		System.out.println("Store in database");
+		
 	}
 
 }
