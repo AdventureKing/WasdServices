@@ -46,7 +46,7 @@ public class csgoSQLGateway {
 			}
 			// create statment to push to database
 	
-			String sql = "INSERT into csgoMatchData values (?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT IGNORE INTO csgoMatchData values (?,?,?,?,?,?,?,?,?)";
 			stmt = (PreparedStatement) conn.prepareStatement(sql);
 			
 			//set time out so no lag
