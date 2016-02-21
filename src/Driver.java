@@ -1,3 +1,4 @@
+import Gateway.csgoSQLGateway;
 import webservicepulls.csgoWebservice;
 
 public class Driver {
@@ -15,6 +16,8 @@ public class Driver {
 		//test print
 		//System.out.println(csgoCall.getFeedResults().toString() + "\n");
 		System.out.println("Store in database");
+		csgoSQLGateway csgoInsert = new csgoSQLGateway();
+		csgoInsert.insertMatch(csgoCall.getFeedResults());
 		
 	}
 

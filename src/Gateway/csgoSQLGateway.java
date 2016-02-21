@@ -14,13 +14,13 @@ public class csgoSQLGateway {
 
 	
 	MysqlDataSource ds= new MysqlDataSource();
-	Connection conn;
+	Connection conn = null;
 	private ArrayList<CsgoMatchFeedObject> matchList;
 	
 	
 	
 	void setDsUrl(){
-		ds.setURL("jdbc:wasdplay.cm7k6xsx1khr.us-west-2.rds.amazonaws.com:3306employees?user=Rod_S_B&password=Grap3R0d929!");
+		ds.setURL("jdbc:wasdplay.cm7k6xsx1khr.us-west-2.rds.amazonaws.com:3306/employees");
 	}
 	void setDsUser(){
 		ds.setUser("Rod_S_B");
@@ -113,7 +113,7 @@ public class csgoSQLGateway {
 			}
 		}
 		
-		
+		System.out.println("Connection terminated");
 		
 	}
 	
