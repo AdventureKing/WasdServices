@@ -12,8 +12,8 @@ public class Driver {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		System.out.println(csgoCall.getFeedResults().toString() + "\n");
+		//test print
+		//System.out.println(csgoCall.getFeedResults().toString() + "\n");
 		System.out.println("Store in database");
 	}
 
