@@ -20,7 +20,7 @@ public class csgoSQLGateway {
 	
 	
 	void setDsUrl(){
-		ds.setURL("jdbc:wasdplay.cm7k6xsx1khr.us-west-2.rds.amazonaws.com:3306/employees");
+		ds.setURL("jdbc:mysql://wasdplay.cm7k6xsx1khr.us-west-2.rds.amazonaws.com:3306/wasdplaySchool");
 	}
 	void setDsUser(){
 		ds.setUser("Rod_S_B");
@@ -32,8 +32,13 @@ public class csgoSQLGateway {
 		setDsUrl();
 		setDsUser();
 		setDsPassword();
+		setDsName();
 	}
 	
+	private void setDsName() {
+		// TODO Auto-generated method stub
+		//ds.setDatabaseName("wasdplaySchool");
+	}
 	public void insertMatch(ArrayList<CsgoMatchFeedObject> matchList){
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
@@ -46,7 +51,7 @@ public class csgoSQLGateway {
 			}
 			// create statment to push to database
 	
-			String sql = "INSERT IGNORE INTO csgoMatchData values (?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT IGNORE INTO csgoMatchData (matchDescription,matchType,gameTitle,gameTimeStart,betCutoff,team1,team2,team1Odds,team2Odds) VALUES (?,?,?,?,?,?,?,?,?)";
 			stmt = (PreparedStatement) conn.prepareStatement(sql);
 			
 			//set time out so no lag
@@ -57,20 +62,22 @@ public class csgoSQLGateway {
 				stmt.setString(1, listObject.getMatchdescription());
 				stmt.setString(2, listObject.getMatchGameType());
 				stmt.setString(3, listObject.getMatchtitle());
-				
+				//matchtime start
 				//need to convert to server area code
 				stmt.setString(4, listObject.getMatchpubDate());
+				
+				//match time to start but 10 mins earlier
 				//need to change to like 10 mins before it starts
 				stmt.setString(5, listObject.getMatchpubDate());
 				
 				//need to in object split name effectivly to get team 1
 				stmt.setString(6, listObject.getMatchtitle());
 				//need to in object split name effectivly to get team 2
-				stmt.setString(6, listObject.getMatchtitle());
+				stmt.setString(7, listObject.getMatchtitle());
 				//need to in object split name effectivly to get team 1 odds
-				stmt.setInt(7, 50);
-				//need to in object split name effectivly to get team 2 odds
 				stmt.setInt(8, 50);
+				//need to in object split name effectivly to get team 2 odds
+				stmt.setInt(9, 50);
 				stmt.addBatch();
 			}
 			stmt.executeBatch();

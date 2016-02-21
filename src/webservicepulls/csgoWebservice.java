@@ -103,7 +103,7 @@ public class csgoWebservice {
 		}
 		
 		//test print the reesponse
-		// System.out.println(response);
+		//System.out.println(response);
 		//build a xml document 
 		DocumentBuilder db = null;
 		try {
