@@ -74,9 +74,9 @@ public class csgoSQLGateway {
 				stmt.setString(5, listObject.getMatchpubDate());
 				
 				//need to in object split name effectivly to get team 1
-				stmt.setString(6, listObject.getMatchtitle());
+				stmt.setString(6, listObject.getTeamA());
 				//need to in object split name effectivly to get team 2
-				stmt.setString(7, listObject.getMatchtitle());
+				stmt.setString(7, listObject.getTeamB());
 				//need to in object split name effectivly to get team 1 odds
 				stmt.setInt(8, 50);
 				//need to in object split name effectivly to get team 2 odds
