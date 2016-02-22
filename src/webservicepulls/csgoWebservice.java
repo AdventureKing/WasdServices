@@ -13,6 +13,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -113,8 +114,9 @@ public class csgoWebservice {
 		        String[] tokens = explrObject.get("when").toString().split(delims);
 		        //System.out.println("teamA: " + tokens[0] + "TeamB:" + tokens[1]);
 		        String year = tokens[0];
-		        System.out.println(year);
-		        if(explrObject.get("when") == "2016"){
+		        //System.out.println(year);
+		        int yearActual = Calendar.getInstance().get(Calendar.YEAR);
+		        if(Integer.parseInt(year) == yearActual){
 		        	
 		        
 		        System.out.println(explrObject.get("event").toString());

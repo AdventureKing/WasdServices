@@ -20,6 +20,7 @@ final String matchtitle;
   private String teamB;
   private String statusOfGame;
   private String betCuttoff;
+  private String matchWinner = "";
   
 
 public CsgoMatchFeedObject(String title, String link, String description, String pubDate, String matchGameType,String teamA,String teamB, int statusOfGame) {
@@ -125,6 +126,16 @@ public CsgoMatchFeedObject(String title, String link, String description, String
 
 
 
+	public String getMatchWinner() {
+		return matchWinner;
+	}
+
+
+
+
+	public void setMatchWinner(String matchWinner) {
+		this.matchWinner = matchWinner;
+	}
 
 	  @Override
 	public String toString() {
