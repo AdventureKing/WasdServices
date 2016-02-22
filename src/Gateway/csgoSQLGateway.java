@@ -46,7 +46,7 @@ public class csgoSQLGateway {
 			if(conn == null)
 			{
 			conn = ds.getConnection();
-			conn.setAutoCommit(false);
+			
 			System.out.println("connection made for AWS");
 			}
 			// create statment to push to database
@@ -54,6 +54,9 @@ public class csgoSQLGateway {
 			String sql = "INSERT IGNORE INTO csgoMatchData (matchDescription,matchType,gameTitle,gameTimeStart,betCutoff,team1,team2,team1Odds,team2Odds,betOpen) VALUES (?,?,?,?,?,?,?,?,?,?)";
 			stmt = (PreparedStatement) conn.prepareStatement(sql);
 			
+			
+			//set autocommit to false
+			conn.setAutoCommit(false);
 			//set time out so no lag
 			
 	
@@ -83,11 +86,21 @@ public class csgoSQLGateway {
 				
 				stmt.addBatch();
 			}
-			stmt.executeBatch();
-			stmt.close();
+			
+			int[] count = stmt.executeBatch();
+			conn.commit();
+			conn.setAutoCommit(true);
+			//stmt.close();
 
 		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
+			
 		} finally {
 			
 			
