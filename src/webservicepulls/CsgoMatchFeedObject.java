@@ -18,11 +18,11 @@ final String matchtitle;
   final String matchGameType;
   private String teamA;
   private String teamB;
-  private int statusOfGame;
+  private String statusOfGame;
   private String betCuttoff;
   
 
-public CsgoMatchFeedObject(String title, String link, String description, String pubDate, String matchGameType,String teamA,String teamB) {
+public CsgoMatchFeedObject(String title, String link, String description, String pubDate, String matchGameType,String teamA,String teamB, int statusOfGame) {
    this.matchtitle = title;
    this.matchlink = link;
    this.matchdescription = description;
@@ -33,10 +33,14 @@ public CsgoMatchFeedObject(String title, String link, String description, String
    if(teamA == ""){
    String delims = "vs";
    String[] tokens = title.split(delims);
-   System.out.println("teamA: " + tokens[0] + "TeamB:" + tokens[1]);
+   //System.out.println("teamA: " + tokens[0] + "TeamB:" + tokens[1]);
    this.teamA = tokens[0];
    this.teamB = tokens[1];
    }
+   if(statusOfGame == 0)
+   this.statusOfGame = "Open";
+   else
+   this.statusOfGame = "Closed";  
   }
 
 
@@ -94,14 +98,14 @@ public CsgoMatchFeedObject(String title, String link, String description, String
 
 
 
-	public int getStatusOfGame() {
+	public String getStatusOfGame() {
 		return statusOfGame;
 	}
 
 
 
 
-	public void setStatusOfGame(int statusOfGame) {
+	public void setStatusOfGame(String statusOfGame) {
 		this.statusOfGame = statusOfGame;
 	}
 

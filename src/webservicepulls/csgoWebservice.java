@@ -22,7 +22,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLInputFactory;
 
-
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -103,6 +104,22 @@ public class csgoWebservice {
 		
 		//test print the reesponse
 		//System.out.println(response);
+		//JSONObject jsnobject  = new JSONObject(response);
+		JSONArray jsonArray = new JSONArray(response);
+		 
+		    for (int i = 0; i < jsonArray.length(); i++) {
+		        JSONObject explrObject = jsonArray.getJSONObject(i);
+		        String delims = "-";
+		        String[] tokens = explrObject.get("when").toString().split(delims);
+		        //System.out.println("teamA: " + tokens[0] + "TeamB:" + tokens[1]);
+		        String year = tokens[0];
+		        System.out.println(year);
+		        if(explrObject.get("when") == "2016"){
+		        	
+		        
+		        System.out.println(explrObject.get("event").toString());
+		        }
+		}
 		
 	}
 
@@ -215,7 +232,7 @@ public class csgoWebservice {
 			String tempgameType = getCharacterDataFromElement(line);
 
 			CsgoMatchFeedObject tempObject = new CsgoMatchFeedObject(tempName, templink, tempdes, tempPubDate,
-					tempgameType,"","");
+					tempgameType,"","",0);
 			feedResults.add(tempObject);
 		}
 
