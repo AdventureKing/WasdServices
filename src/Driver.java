@@ -14,9 +14,16 @@ public class Driver {
 			e.printStackTrace();
 		}
 		csgoCall.csgoLoungeMatchFeedCall();
+		//System.out.println(csgoCall.getHLTVGOFeedResults());
+		//System.out.println(csgoCall.getLoungeFinishResults().toString());
 		
-		
-		
+		try {
+			Thread.sleep(10000);
+			System.out.println("Go to sleep");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("Store in database");
 		
 		csgoSQLGateway csgoInsert = new csgoSQLGateway();

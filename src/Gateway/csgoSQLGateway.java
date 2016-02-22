@@ -51,7 +51,7 @@ public class csgoSQLGateway {
 			}
 			// create statment to push to database
 	
-			String sql = "INSERT IGNORE INTO csgoMatchData (matchDescription,matchType,gameTitle,gameTimeStart,betCutoff,team1,team2,team1Odds,team2Odds,betOpen) VALUES (?,?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT IGNORE INTO csgoMatchData (matchEvent,matchType,gameTitle,gameTimeStart,betCutoff,team1,team2,team1Odds,team2Odds,betOpen) VALUES (?,?,?,?,?,?,?,?,?,?)";
 			stmt = (PreparedStatement) conn.prepareStatement(sql);
 			
 			
@@ -62,7 +62,7 @@ public class csgoSQLGateway {
 	
 			// put data into query
 			for(CsgoMatchFeedObject listObject: matchList){
-				stmt.setString(1, listObject.getMatchdescription());
+				stmt.setString(1, listObject.getMatchEvent());
 				stmt.setString(2, listObject.getMatchGameType());
 				stmt.setString(3, listObject.getMatchtitle());
 				//matchtime start
@@ -88,6 +88,7 @@ public class csgoSQLGateway {
 			}
 			
 			int[] count = stmt.executeBatch();
+			System.out.println("Inserted " + count.length + " records for csgoMatchTable");
 			conn.commit();
 			conn.setAutoCommit(true);
 			//stmt.close();
@@ -140,5 +141,7 @@ public class csgoSQLGateway {
 		
 	}
 	
-	
+	public void updateCsGoMatchTable(){
+		
+	}
 }

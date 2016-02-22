@@ -114,15 +114,46 @@ public class csgoWebservice {
 		        String[] tokens = explrObject.get("when").toString().split(delims);
 		        //System.out.println("teamA: " + tokens[0] + "TeamB:" + tokens[1]);
 		        String year = tokens[0];
-		        //System.out.println(year);
+		        String month = tokens[1];
+		       // System.out.println(month);
 		        int yearActual = Calendar.getInstance().get(Calendar.YEAR);
-		        if(Integer.parseInt(year) == yearActual){
+		        int monthActual = Calendar.getInstance().get((Calendar.MONTH))+ 1;
+		        //System.out.println(monthActual);
+		        if(Integer.parseInt(year) == yearActual  &&Integer.parseInt(month) == monthActual && !explrObject.get("winner").toString().equals("")){
 		        	
 		        
-		        System.out.println(explrObject.get("event").toString());
+		        //System.out.println(explrObject.get("event").toString());
+		        	
+		        	//need to convert time stamp to match time stamp that will be in db
+		        String timeWhen = explrObject.get("when").toString();
+		        String matchEvent = explrObject.getString("event").toString();
+		        String teamA = explrObject.getString("a").toString();
+		        String teamB = explrObject.getString("b").toString();
+		        String matchTitle = teamA + " vs " + teamB;
+		        //System.out.println(matchTitle);
+		        String matchWinner = explrObject.getString("winner").toString();
+		        if(matchWinner.equals("a")){
+		        	matchWinner = teamA;
+		        }else if(matchWinner.equals("b")){
+		        	matchWinner = teamB;
+		        }else{
+		        	matchWinner = "Closed";
 		        }
+		        CsgoMatchFeedObject tempObject = new CsgoMatchFeedObject(matchTitle,"",matchEvent,timeWhen,"",teamA,teamB,1);
+		        tempObject.setMatchWinner(matchWinner);
+		        loungeFinishResults.add(tempObject);
+		        }
+		        
 		}
 		
+	}
+
+	public ArrayList<CsgoMatchFeedObject> getLoungeFinishResults() {
+		return loungeFinishResults;
+	}
+
+	public void setLoungeFinishResults(ArrayList<CsgoMatchFeedObject> loungeFinishResults) {
+		this.loungeFinishResults = loungeFinishResults;
 	}
 
 	public void hltvMatchFeedCall() {
@@ -253,7 +284,7 @@ public class csgoWebservice {
 		this.context = context;
 	}
 
-	public ArrayList<CsgoMatchFeedObject> getFeedResults() {
+	public ArrayList<CsgoMatchFeedObject> getHLTVGOFeedResults() {
 		return feedResults;
 	}
 

@@ -12,8 +12,11 @@ public class CsgoMatchFeedObject {
  
 
 final String matchtitle;
-  final String matchlink;
-  final String matchdescription;
+  
+
+
+final String matchlink;
+  final String matchEvent;
   final String matchpubDate;
   final String matchGameType;
   private String teamA;
@@ -26,7 +29,7 @@ final String matchtitle;
 public CsgoMatchFeedObject(String title, String link, String description, String pubDate, String matchGameType,String teamA,String teamB, int statusOfGame) {
    this.matchtitle = title;
    this.matchlink = link;
-   this.matchdescription = description;
+   this.matchEvent = description;
    this.matchpubDate = pubDate;
    this.matchGameType = matchGameType;
    this.teamA = teamA;
@@ -46,101 +49,138 @@ public CsgoMatchFeedObject(String title, String link, String description, String
 
 
 
- 
-  public String getMatchtitle() {
-		return matchtitle;
-	}
+public String getTeamA() {
+	return teamA;
+}
 
 
-	public String getMatchlink() {
-		return matchlink;
-	}
 
-
-	public String getMatchdescription() {
-		return matchdescription;
-	}
-
-
-	public String getMatchpubDate() {
-		return matchpubDate;
-	}
-
-
-	public String getMatchGameType() {
-		return matchGameType;
-	}
-
-	public String getTeamA() {
-		return teamA;
-	}
+public void setTeamA(String teamA) {
+	this.teamA = teamA;
+}
 
 
 
 
-	public void setTeamA(String teamA) {
-		this.teamA = teamA;
-	}
+
+
+public String getTeamB() {
+	return teamB;
+}
 
 
 
 
-	public String getTeamB() {
-		return teamB;
-	}
+
+
+public void setTeamB(String teamB) {
+	this.teamB = teamB;
+}
 
 
 
 
-	public void setTeamB(String teamB) {
-		this.teamB = teamB;
-	}
+
+
+public String getStatusOfGame() {
+	return statusOfGame;
+}
 
 
 
 
-	public String getStatusOfGame() {
-		return statusOfGame;
-	}
+
+
+public void setStatusOfGame(String statusOfGame) {
+	this.statusOfGame = statusOfGame;
+}
 
 
 
 
-	public void setStatusOfGame(String statusOfGame) {
-		this.statusOfGame = statusOfGame;
-	}
+
+
+public String getBetCuttoff() {
+	return betCuttoff;
+}
 
 
 
 
-	public String getBetCuttoff() {
-		return betCuttoff;
-	}
+
+
+public void setBetCuttoff(String betCuttoff) {
+	this.betCuttoff = betCuttoff;
+}
 
 
 
 
-	public void setBetCuttoff(String betCuttoff) {
-		this.betCuttoff = betCuttoff;
-	}
 
 
-
-	public String getMatchWinner() {
-		return matchWinner;
-	}
+public String getMatchWinner() {
+	return matchWinner;
+}
 
 
 
 
-	public void setMatchWinner(String matchWinner) {
-		this.matchWinner = matchWinner;
-	}
+
+
+public void setMatchWinner(String matchWinner) {
+	this.matchWinner = matchWinner;
+}
+
+
+
+
+
+
+public String getMatchtitle() {
+	return matchtitle;
+}
+
+
+
+
+
+
+public String getMatchlink() {
+	return matchlink;
+}
+
+
+
+
+
+
+public String getMatchEvent() {
+	return matchEvent;
+}
+
+
+
+
+
+
+public String getMatchpubDate() {
+	return matchpubDate;
+}
+
+
+
+
+
+
+public String getMatchGameType() {
+	return matchGameType;
+}
+
 
 	  @Override
 	public String toString() {
-		return "CsgoMatchFeedObject [matchtitle=" + matchtitle + ", matchlink=" + matchlink + ", matchdescription="
-				+ matchdescription + ", matchpubDate=" + matchpubDate + ", matchGameType=" + matchGameType + ", teamA="
+		return "CsgoMatchFeedObject [matchtitle=" + matchtitle + ", matchlink=" + matchlink + ", matchEvent="
+				+ matchEvent + ", matchpubDate=" + matchpubDate + ", matchGameType=" + matchGameType + ", teamA="
 				+ teamA + ", teamB=" + teamB + ", statusOfGame=" + statusOfGame + ", betCuttoff=" + betCuttoff + "]\n";
 	}
 
