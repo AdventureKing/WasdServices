@@ -22,8 +22,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLInputFactory;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -103,7 +102,7 @@ public class csgoWebservice {
 		}
 		
 		//test print the reesponse
-		System.out.println(response);
+		//System.out.println(response);
 		
 	}
 
@@ -216,7 +215,7 @@ public class csgoWebservice {
 			String tempgameType = getCharacterDataFromElement(line);
 
 			CsgoMatchFeedObject tempObject = new CsgoMatchFeedObject(tempName, templink, tempdes, tempPubDate,
-					tempgameType);
+					tempgameType,"","");
 			feedResults.add(tempObject);
 		}
 

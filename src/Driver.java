@@ -1,6 +1,6 @@
 //import Gateway.csgoSQLGateway;
 import webservicepulls.csgoWebservice;
-
+import Gateway.csgoSQLGateway;
 public class Driver {
 
 	public static void main(String[] args) {
@@ -15,7 +15,12 @@ public class Driver {
 		}
 		csgoCall.csgoLoungeMatchFeedCall();
 		
+		
+		
 		System.out.println("Store in database");
+		
+		csgoSQLGateway csgoInsert = new csgoSQLGateway();
+        //csgoInsert.insertMatch(csgoCall.getFeedResults());
 	
 	}
 

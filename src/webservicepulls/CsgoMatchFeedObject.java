@@ -17,17 +17,26 @@ final String matchtitle;
   final String matchpubDate;
   final String matchGameType;
   private String teamA;
-  
-private String teamB;
+  private String teamB;
   private int statusOfGame;
+  private String betCuttoff;
   
 
-  public CsgoMatchFeedObject(String title, String link, String description, String pubDate, String matchGameType) {
+public CsgoMatchFeedObject(String title, String link, String description, String pubDate, String matchGameType,String teamA,String teamB) {
    this.matchtitle = title;
    this.matchlink = link;
    this.matchdescription = description;
    this.matchpubDate = pubDate;
    this.matchGameType = matchGameType;
+   this.teamA = teamA;
+   this.teamB = teamB;
+   if(teamA == ""){
+   String delims = "vs";
+   String[] tokens = title.split(delims);
+   System.out.println("teamA: " + tokens[0] + "TeamB:" + tokens[1]);
+   this.teamA = tokens[0];
+   this.teamB = tokens[1];
+   }
   }
 
 
@@ -99,20 +108,26 @@ private String teamB;
 
 
 
-	@Override
-	public String toString() {
-		return "CsgoMatchFeedObject [matchtitle=" + matchtitle + ", matchlink=" + matchlink + ", matchdescription="
-				+ matchdescription + ", matchpubDate=" + matchpubDate + ", matchGameType=" + matchGameType + ", teamA="
-				+ teamA + ", teamB=" + teamB + ", statusOfGame=" + statusOfGame + "]\n";
+	public String getBetCuttoff() {
+		return betCuttoff;
 	}
 
 
 
 
+	public void setBetCuttoff(String betCuttoff) {
+		this.betCuttoff = betCuttoff;
+	}
 
 
-	@Override
-	
 
-  
+
+	  @Override
+	public String toString() {
+		return "CsgoMatchFeedObject [matchtitle=" + matchtitle + ", matchlink=" + matchlink + ", matchdescription="
+				+ matchdescription + ", matchpubDate=" + matchpubDate + ", matchGameType=" + matchGameType + ", teamA="
+				+ teamA + ", teamB=" + teamB + ", statusOfGame=" + statusOfGame + ", betCuttoff=" + betCuttoff + "]\n";
+	}
+
+
 } 
