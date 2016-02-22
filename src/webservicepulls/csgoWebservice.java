@@ -41,8 +41,70 @@ public class csgoWebservice {
 
 	private SSLContext context = null;
 	private ArrayList<CsgoMatchFeedObject> feedResults;
+	private ArrayList<CsgoMatchFeedObject> loungeFinishResults; 
 
 	public csgoWebservice() {
+	}
+	
+	public void csgoLoungeMatchFeedCall(){
+		loungeFinishResults = new ArrayList<CsgoMatchFeedObject>();
+		String response;
+		URL wsURL;
+		try {
+
+			wsURL = new URL("http://csgolounge.com/api/matches");
+			String protocol = wsURL.getProtocol();
+			if (!protocol.equalsIgnoreCase("https") && !protocol.equalsIgnoreCase("http"))
+				throw new IllegalArgumentException("WS URL must be valid HTTP or HTTPS web resource");
+		} catch (MalformedURLException e) {
+			throw new IllegalArgumentException("WS URL must be valid HTTP or HTTPS web resource");
+		}
+		//url that has been filled
+		URL tempURL = wsURL;
+		try {
+			//create a http request
+			HttpURLConnection connection = null;
+
+			if (tempURL.getProtocol().equalsIgnoreCase("https")) {
+				// Create an SSL connection that that uses our SSL context
+				connection = (HttpsURLConnection) tempURL.openConnection();
+				((HttpsURLConnection) connection).setSSLSocketFactory(context.getSocketFactory());
+			} else {
+				connection = (HttpURLConnection) tempURL.openConnection();
+			}
+			// connection.setRequestMethod("POST");
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+			connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+
+			// Send request
+			connection.setDoOutput(true);
+
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			java.io.InputStream in = connection.getInputStream();
+			if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+
+			}
+			//read all bytes from open stream
+			int bytesRead = 0;
+			byte[] buffer = new byte[1024];
+			while ((bytesRead = in.read(buffer)) > 0) {
+				out.write(buffer, 0, bytesRead);
+			}
+			out.close();
+			//store all bytes read to the response buffer for document builder
+			response = new String(out.toByteArray());
+
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException("Web resource not found!");
+		} catch (Exception e) {
+			// chain the causing exception to a new RuntimeException
+			throw new RuntimeException(e);
+		}
+		
+		//test print the reesponse
+		System.out.println(response);
+		
 	}
 
 	public void hltvMatchFeedCall() {

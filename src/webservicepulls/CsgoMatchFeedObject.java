@@ -16,7 +16,11 @@ final String matchtitle;
   final String matchdescription;
   final String matchpubDate;
   final String matchGameType;
-
+  private String teamA;
+  
+private String teamB;
+  private int statusOfGame;
+  
 
   public CsgoMatchFeedObject(String title, String link, String description, String pubDate, String matchGameType) {
    this.matchtitle = title;
@@ -53,14 +57,62 @@ final String matchtitle;
 		return matchGameType;
 	}
 
+	public String getTeamA() {
+		return teamA;
+	}
+
+
+
+
+	public void setTeamA(String teamA) {
+		this.teamA = teamA;
+	}
+
+
+
+
+	public String getTeamB() {
+		return teamB;
+	}
+
+
+
+
+	public void setTeamB(String teamB) {
+		this.teamB = teamB;
+	}
+
+
+
+
+	public int getStatusOfGame() {
+		return statusOfGame;
+	}
+
+
+
+
+	public void setStatusOfGame(int statusOfGame) {
+		this.statusOfGame = statusOfGame;
+	}
+
 
 
 
 	@Override
 	public String toString() {
-		return "Feed [matchtitle=" + matchtitle + ", matchlink=" + matchlink + ", matchdescription=" + matchdescription
-				+ ", matchpubDate=" + matchpubDate + ", matchGameType=" + matchGameType + "]";
+		return "CsgoMatchFeedObject [matchtitle=" + matchtitle + ", matchlink=" + matchlink + ", matchdescription="
+				+ matchdescription + ", matchpubDate=" + matchpubDate + ", matchGameType=" + matchGameType + ", teamA="
+				+ teamA + ", teamB=" + teamB + ", statusOfGame=" + statusOfGame + "]\n";
 	}
+
+
+
+
+
+
+	@Override
+	
 
   
 } 

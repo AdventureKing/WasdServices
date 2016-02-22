@@ -1,4 +1,4 @@
-import Gateway.csgoSQLGateway;
+//import Gateway.csgoSQLGateway;
 import webservicepulls.csgoWebservice;
 
 public class Driver {
@@ -13,12 +13,10 @@ public class Driver {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//test print
-		//System.out.println(csgoCall.getFeedResults().toString() + "\n");
-		System.out.println("Store in database");
-		csgoSQLGateway csgoInsert = new csgoSQLGateway();
-		csgoInsert.insertMatch(csgoCall.getFeedResults());
+		csgoCall.csgoLoungeMatchFeedCall();
 		
+		System.out.println("Store in database");
+	
 	}
 
 }
