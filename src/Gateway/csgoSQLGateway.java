@@ -78,13 +78,9 @@ public class csgoSQLGateway {
 				//need to change to like 10 mins before it starts
 				java.sql.Timestamp cutofftime = listObject.getMatchpubDateHLTVGOCONVERT();
 				
-					if(cutofftime.getHours() == 00)
-					{
-						cutofftime.setHours(23);
-					}else{
-						cutofftime.setHours(cutofftime.getHours() - 1);
-					}
-				stmt.setTimestamp(5,cutofftime );
+				java.sql.Timestamp newtime = new java.sql.Timestamp(cutofftime.getTime() - (6000 * 300));
+					
+				stmt.setTimestamp(5,newtime);
 				
 				//need to in object split name effectivly to get team 1
 				stmt.setString(6, listObject.getTeamA());
