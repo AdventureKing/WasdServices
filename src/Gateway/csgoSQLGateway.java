@@ -1,9 +1,11 @@
 package Gateway;
 
+import java.security.Timestamp;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
@@ -20,19 +22,19 @@ public class csgoSQLGateway {
 	
 	
 	void setDsUrl(){
-		ds.setURL("jdbc:mysql://wasdplay.cm7k6xsx1khr.us-west-2.rds.amazonaws.com:3306/wasdplaySchool");
+		ds.setURL("jdbc:mysql://wasdplay.cm7k6xsx1khr.us-west-2.rds.amazonaws.com:3306/wasdplaySchool?user=Rod_S_B&password=Grap3R0d929!");
 	}
 	void setDsUser(){
-		ds.setUser("Rod_S_B");
+		//ds.setUser("Rod_S_B");
 	}
 	void setDsPassword(){
-		ds.setPassword("Grap3R0d929!");
+		//ds.setPassword("Grap3R0d929!");
 	}
 	public csgoSQLGateway(){
 		setDsUrl();
-		setDsUser();
-		setDsPassword();
-		setDsName();
+		//setDsUser();
+		//setDsPassword();
+		//setDsName();
 	}
 	
 	private void setDsName() {
@@ -45,6 +47,7 @@ public class csgoSQLGateway {
 		try {
 			if(conn == null)
 			{
+				
 			conn = ds.getConnection();
 			
 			System.out.println("connection made for AWS");
@@ -67,11 +70,21 @@ public class csgoSQLGateway {
 				stmt.setString(3, listObject.getMatchtitle());
 				//matchtime start
 				//need to convert to server area code
-				stmt.setString(4, listObject.getMatchpubDate());
+				
+				stmt.setTimestamp(4, listObject.getMatchpubDateHLTVGOCONVERT());
+				//stmt.setString(4, listObject.getMatchpubDate());
 				
 				//match time to start but 10 mins earlier
 				//need to change to like 10 mins before it starts
-				stmt.setString(5, listObject.getMatchpubDate());
+				java.sql.Timestamp cutofftime = listObject.getMatchpubDateHLTVGOCONVERT();
+				
+					if(cutofftime.getHours() == 00)
+					{
+						cutofftime.setHours(23);
+					}else{
+						cutofftime.setHours(cutofftime.getHours() - 1);
+					}
+				stmt.setTimestamp(5,cutofftime );
 				
 				//need to in object split name effectivly to get team 1
 				stmt.setString(6, listObject.getTeamA());

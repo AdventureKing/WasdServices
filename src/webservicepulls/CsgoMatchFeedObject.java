@@ -1,8 +1,14 @@
 package webservicepulls;
 
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /*
  * Stores an RSS feed
@@ -158,7 +164,21 @@ public String getMatchEvent() {
 	return matchEvent;
 }
 
-
+public Timestamp getMatchpubDateHLTVGOCONVERT() {
+	String formatString = "EEE, dd MMM yyyy HH:mm:ss ZZZZ";
+	DateFormat format = new SimpleDateFormat(formatString, Locale.ENGLISH);
+	java.util.Date insertDate = null;
+	
+		try {
+			insertDate =  format.parse(matchpubDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	Timestamp sqlDate = new Timestamp(insertDate.getTime());
+	return sqlDate;
+}
 
 
 
