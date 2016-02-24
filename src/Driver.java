@@ -4,6 +4,8 @@ import webservicepulls.csgoWebservice;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
+
 import Gateway.csgoSQLGateway;
 public class Driver {
 
@@ -17,9 +19,14 @@ public class Driver {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		csgoCall.csgoLoungeMatchFeedCall();
+		try {
+			csgoCall.csgoLoungeMatchFeedCall();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(csgoCall.getHLTVGOFeedResults());
-		//System.out.println(csgoCall.getLoungeFinishResults().toString());
+		System.out.println(csgoCall.getLoungeFinishResults().toString());
 		
 		/*try {
 			Thread.sleep(10000);

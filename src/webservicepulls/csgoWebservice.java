@@ -24,6 +24,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLInputFactory;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.w3c.dom.Document;
@@ -47,7 +48,7 @@ public class csgoWebservice {
 	public csgoWebservice() {
 	}
 	
-	public void csgoLoungeMatchFeedCall(){
+	public void csgoLoungeMatchFeedCall() throws JSONException{
 		loungeFinishResults = new ArrayList<CsgoMatchFeedObject>();
 		String response;
 		URL wsURL;
