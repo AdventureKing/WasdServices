@@ -25,8 +25,8 @@ public class Driver {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(csgoCall.getHLTVGOFeedResults());
-		System.out.println(csgoCall.getLoungeFinishResults().toString());
+		System.out.println("going into database: " + csgoCall.getHLTVGOFeedResults());
+		System.out.println("getting closed in database: " + csgoCall.getLoungeFinishResults().toString());
 		
 		/*try {
 			Thread.sleep(10000);
@@ -39,7 +39,7 @@ public class Driver {
 		for(CsgoMatchFeedObject tempobject : csgoCall.getHLTVGOFeedResults()){
 			
 		
-		System.out.println("New Times: " + tempobject.getMatchpubDateHLTVGOCONVERT());
+	//	System.out.println("New Times: " + tempobject.getMatchpubDateHLTVGOCONVERT());
 		}
 		csgoSQLGateway csgoInsert = new csgoSQLGateway();
         csgoInsert.insertMatch(csgoCall.getHLTVGOFeedResults());
