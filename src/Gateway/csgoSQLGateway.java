@@ -54,7 +54,7 @@ public class csgoSQLGateway {
 			}
 			// create statment to push to database
 	
-			String sql = "INSERT IGNORE INTO csgoMatchData (matchEvent,matchType,gameTitle,gameTimeStart,betCutoff,team1,team2,team1Odds,team2Odds,betOpen) VALUES (?,?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT IGNORE INTO csgoMatchData (matchEvent,matchType,gameTitle,gameTimeStart,betCutoff,team1,team2,team1Odds,team2Odds,betOpen,isVisOnSite) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = (PreparedStatement) conn.prepareStatement(sql);
 			
 			
@@ -92,7 +92,7 @@ public class csgoSQLGateway {
 				stmt.setInt(9, 50);
 				//set bet as open
 				stmt.setString(10, "Open");
-				
+				stmt.setBoolean(11, true);
 				stmt.addBatch();
 			}
 			
