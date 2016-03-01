@@ -15,6 +15,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -23,6 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLInputFactory;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -246,6 +249,7 @@ public class csgoWebservice {
 			Element element = (Element) nodes.item(i);
 
 			NodeList name = element.getElementsByTagName("title");
+			
 			Element line = (Element) name.item(0);
 			String tempName = getCharacterDataFromElement(line);
 
@@ -271,7 +275,101 @@ public class csgoWebservice {
 		}
 
 	}
+	public void getHltvgoMatchPageinFo(){
+		
+		String response;
+		URL wsURL;
+		int i = 0;
+		for(CsgoMatchFeedObject feedObject : feedResults){
+		try {
+			
+			wsURL = new URL(feedResults.get(i).matchlink);
+			i++;
+			String protocol = wsURL.getProtocol();
+			if (!protocol.equalsIgnoreCase("https") && !protocol.equalsIgnoreCase("http"))
+				throw new IllegalArgumentException("WS URL must be valid HTTP or HTTPS web resource");
+		} catch (MalformedURLException e) {
+			throw new IllegalArgumentException("WS URL must be valid HTTP or HTTPS web resource");
+		}
+		//url that has been filled
+		URL tempURL = wsURL;
+		try {
+			//create a http request
+			HttpURLConnection connection = null;
 
+			if (tempURL.getProtocol().equalsIgnoreCase("https")) {
+				// Create an SSL connection that that uses our SSL context
+				connection = (HttpsURLConnection) tempURL.openConnection();
+				((HttpsURLConnection) connection).setSSLSocketFactory(context.getSocketFactory());
+			} else {
+				connection = (HttpURLConnection) tempURL.openConnection();
+			}
+			// connection.setRequestMethod("POST");
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+			connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+
+			// Send request
+			connection.setDoOutput(true);
+
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			java.io.InputStream in = connection.getInputStream();
+			if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+
+			}
+			//read all bytes from open stream
+			int bytesRead = 0;
+			byte[] buffer = new byte[1024];
+			while ((bytesRead = in.read(buffer)) > 0) {
+				out.write(buffer, 0, bytesRead);
+			}
+			out.close();
+			//store all bytes read to the response buffer for document builder
+			response = new String(out.toByteArray());
+
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException("Web resource not found!");
+		} catch (Exception e) {
+			// chain the causing exception to a new RuntimeException
+			throw new RuntimeException(e);
+		}
+		//System.out.println(response);
+		
+	    String Link = StringUtils.substringBetween(response, "<div id=\"mapformatbox\">", "</div>");
+		String watchCatagory = StringUtils.substringBetween(response, "<div class=\"hotmatchroundbox\" style=\"margin-top: 2px;\">", "</div>");
+	    String team1Odds = StringUtils.substringBetween(response, "<td style=\"text-align: right;\" id=\"voteteam1results\">", "</td>");
+	    String team2Odds = StringUtils.substringBetween(response, "<td style=\"text-align: right;\" id=\"voteteam2results\">", "</td>");
+
+	    //add tag
+	    Link = "<br>" + Link;
+	    //System.out.println(Link);
+		String streamLink = StringUtils.substringBetween(Link, "<a href=\"", "\">English stream</a><br />");
+		//set stream link
+		if(streamLink == null){
+			feedObject.setStreamLink(watchCatagory);
+		}else{
+			feedObject.setStreamLink(streamLink);
+		}
+		//sejt best of
+		String bestOf = StringUtils.substringBetween(Link,"<br>","<br />");
+		if(bestOf == null){
+			bestOf = StringUtils.substringBetween(Link,"<br>","<div style=\"border-top: 1px solid darkgray;margin-bottom: 3px;margin-top:3px;\">");
+		}
+		bestOf = bestOf.replaceAll("[^a-zA-Z0-9]", "");
+		//System.out.println("WHAT IS IT " +bestOf);
+		feedObject.setMatchGameType(bestOf);
+		
+		//set odds
+		team1Odds = team1Odds.replaceAll(" ", "");
+		team1Odds = team1Odds.replaceAll("%", "");
+		//System.out.println(team1Odds);
+		team2Odds = team2Odds.replaceAll(" ", "");
+		team2Odds = team2Odds.replaceAll("%", "");
+		//System.out.println(team2Odds);
+		feedObject.setTeam1Odds(Float.parseFloat(team1Odds));
+		feedObject.setTeam2Odds(Float.parseFloat(team2Odds));
+		}
+	}
 	public static String getCharacterDataFromElement(Element e) {
 		Node child = e.getFirstChild();
 		if (child instanceof CharacterData) {

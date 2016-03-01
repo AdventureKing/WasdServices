@@ -54,7 +54,7 @@ public class csgoSQLGateway {
 			}
 			// create statment to push to database
 	
-			String sql = "INSERT IGNORE INTO csgoMatchData (matchEvent,matchType,gameTitle,gameTimeStart,betCutoff,team1,team2,team1Odds,team2Odds,betOpen,isVisOnSite) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT IGNORE INTO csgoMatchData (matchEvent,matchType,gameTitle,gameTimeStart,betCutoff,team1,team2,team1Odds,team2Odds,betOpen,streamLink,isVisOnSite) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = (PreparedStatement) conn.prepareStatement(sql);
 			
 			
@@ -87,12 +87,13 @@ public class csgoSQLGateway {
 				//need to in object split name effectivly to get team 2
 				stmt.setString(7, listObject.getTeamB());
 				//need to in object split name effectivly to get team 1 odds
-				stmt.setInt(8, 50);
+				stmt.setFloat(8, listObject.getTeam1Odds());
 				//need to in object split name effectivly to get team 2 odds
-				stmt.setInt(9, 50);
+				stmt.setFloat(9, listObject.getTeam2Odds());
 				//set bet as open
 				stmt.setString(10, "Open");
-				stmt.setBoolean(11, true);
+				stmt.setString(11, listObject.getStreamLink());
+				stmt.setBoolean(12, true);
 				stmt.addBatch();
 			}
 			

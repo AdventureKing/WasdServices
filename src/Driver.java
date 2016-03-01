@@ -41,6 +41,7 @@ public class Driver {
 		
 	//	System.out.println("New Times: " + tempobject.getMatchpubDateHLTVGOCONVERT());
 		}
+		csgoCall.getHltvgoMatchPageinFo();
 		csgoSQLGateway csgoInsert = new csgoSQLGateway();
         csgoInsert.insertMatch(csgoCall.getHLTVGOFeedResults());
 	

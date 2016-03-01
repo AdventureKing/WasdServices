@@ -22,14 +22,17 @@ final String matchtitle;
 
 
 final String matchlink;
-  final String matchEvent;
-  final String matchpubDate;
-  final String matchGameType;
+  private String matchEvent;
+  private String matchpubDate;
+  private String matchGameType;
   private String teamA;
   private String teamB;
   private String statusOfGame;
   private String betCuttoff;
+  private Float team1Odds;
+  private float team2Odds;
   private String matchWinner = "";
+  private String streamLink = "";
   
 
 public CsgoMatchFeedObject(String title, String link, String description, String pubDate, String matchGameType,String teamA,String teamB, int statusOfGame) {
@@ -202,6 +205,49 @@ public String getMatchGameType() {
 		return "CsgoMatchFeedObject [matchtitle=" + matchtitle + ", matchlink=" + matchlink + ", matchEvent="
 				+ matchEvent + ", matchpubDate=" + matchpubDate + ", matchGameType=" + matchGameType + ", teamA="
 				+ teamA + ", teamB=" + teamB + ", statusOfGame=" + statusOfGame + ", betCuttoff=" + betCuttoff + "]\n";
+	}
+
+
+
+	public void setMatchGameType(String bestOf) {
+		// TODO Auto-generated method stub
+		this.matchGameType = bestOf;
+	}
+
+
+
+	public String getStreamLink() {
+		return streamLink;
+	}
+
+
+
+	public void setStreamLink(String streamLink) {
+		this.streamLink = streamLink;
+	}
+
+
+
+	public Float getTeam1Odds() {
+		return team1Odds;
+	}
+
+
+
+	public void setTeam1Odds(float f) {
+		this.team1Odds = f;
+	}
+
+
+
+	public Float getTeam2Odds() {
+		return team2Odds;
+	}
+
+
+
+	public void setTeam2Odds(Float team2Odds) {
+		this.team2Odds = team2Odds;
 	}
 
 
