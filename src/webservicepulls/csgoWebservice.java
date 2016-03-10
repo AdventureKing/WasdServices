@@ -360,15 +360,29 @@ public class csgoWebservice {
 		feedObject.setMatchGameType(bestOf);
 		
 		//set odds
+		if(team1Odds == null){
+			feedObject.setTeam1Odds((float)50);
+			feedObject.setTeam2Odds((float)50);
+		}else{
 		team1Odds = team1Odds.replaceAll(" ", "");
 		team1Odds = team1Odds.replaceAll("%", "");
-		//System.out.println(team1Odds);
+		System.out.println("Match");
+		System.out.println(team1Odds);
 		team2Odds = team2Odds.replaceAll(" ", "");
 		team2Odds = team2Odds.replaceAll("%", "");
-		//System.out.println(team2Odds);
+		System.out.println(team2Odds);
+		if(team1Odds == "-"){
+			feedObject.setTeam1Odds((float)50);
+			feedObject.setTeam2Odds((float)50);
+		}else{
+			
 		feedObject.setTeam1Odds(Float.parseFloat(team1Odds));
 		feedObject.setTeam2Odds(Float.parseFloat(team2Odds));
 		}
+		}
+		}
+		
+		
 	}
 	public static String getCharacterDataFromElement(Element e) {
 		Node child = e.getFirstChild();
