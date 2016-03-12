@@ -54,7 +54,7 @@ public class csgoSQLGateway {
 			}
 			// create statment to push to database
 	
-			String sql = "INSERT IGNORE INTO csgoMatchData (matchEvent,matchType,gameTitle,gameTimeStart,betCutoff,team1,team2,team1Odds,team2Odds,betOpen,streamLink,isVisOnSite) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO csgoMatchData (matchEvent,matchType,gameTitle,gameTimeStart,betCutoff,team1,team2,team1Odds,team2Odds,betOpen,streamLink,isVisOnSite) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE (matchEvent,matchType,gameTitle,gameTimeStart,betCutoff,team1,team2,team1Odds,team2Odds,betOpen,streamLink,isVisOnSite) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = (PreparedStatement) conn.prepareStatement(sql);
 			
 			
@@ -65,13 +65,14 @@ public class csgoSQLGateway {
 	
 			// put data into query
 			for(CsgoMatchFeedObject listObject: matchList){
+				java.sql.Timestamp startTime = listObject.getMatchpubDateHLTVGOCONVERT();
 				stmt.setString(1, listObject.getMatchEvent());
 				stmt.setString(2, listObject.getMatchGameType());
 				stmt.setString(3, listObject.getMatchtitle());
 				//matchtime start
 				//need to convert to server area code
 				
-				stmt.setTimestamp(4, listObject.getMatchpubDateHLTVGOCONVERT());
+				stmt.setTimestamp(4, startTime);
 				//stmt.setString(4, listObject.getMatchpubDate());
 				
 				//match time to start but 10 mins earlier
@@ -94,6 +95,22 @@ public class csgoSQLGateway {
 				stmt.setString(10, "Open");
 				stmt.setString(11, listObject.getStreamLink());
 				stmt.setBoolean(12, true);
+				
+				//update statement
+				stmt.setString(13, listObject.getMatchEvent());
+				stmt.setString(14, listObject.getMatchGameType());
+				stmt.setString(15, listObject.getMatchtitle());
+				stmt.setTimestamp(16, startTime);
+				stmt.setTimestamp(17,newtime);
+				stmt.setString(18, listObject.getTeamA());
+				stmt.setString(19, listObject.getTeamB());
+				//need to in object split name effectivly to get team 1 odds
+				stmt.setFloat(20, listObject.getTeam1Odds());
+				//need to in object split name effectivly to get team 2 odds
+				stmt.setFloat(21, listObject.getTeam2Odds());
+				stmt.setString(22, "Open");
+				stmt.setString(23, listObject.getStreamLink());
+				stmt.setBoolean(24, true);
 				stmt.addBatch();
 			}
 			
