@@ -54,7 +54,7 @@ public class csgoSQLGateway {
 			}
 			// create statment to push to database
 	
-			String sql = "INSERT INTO csgoMatchData (matchEvent,matchType,gameTitle,gameTimeStart,betCutoff,team1,team2,team1Odds,team2Odds,betOpen,streamLink,isVisOnSite) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE (matchEvent,matchType,gameTitle,gameTimeStart,betCutoff,team1,team2,team1Odds,team2Odds,betOpen,streamLink,isVisOnSite) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO csgoMatchData SET matchEvent=?,matchType=?,gameTitle=?,gameTimeStart=?,betCutoff=?,team1=?,team2=?,team1Odds=?,team2Odds=?,betOpen=?,streamLink=?,isVisOnSite=? ON DUPLICATE KEY UPDATE matchEvent=?,matchType=?,gameTitle=?,gameTimeStart=?,betCutoff=?,team1=?,team2=?,team1Odds=?,team2Odds=?,betOpen=?,streamLink=?,isVisOnSite=?";
 			stmt = (PreparedStatement) conn.prepareStatement(sql);
 			
 			
