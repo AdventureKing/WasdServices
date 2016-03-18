@@ -78,6 +78,7 @@ public class csgoWebservice {
 				connection = (HttpURLConnection) tempURL.openConnection();
 			}
 			// connection.setRequestMethod("POST");
+			//set browser and request methods
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("User-Agent", "Mozilla/5.0");
 			connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
@@ -406,7 +407,7 @@ public class csgoWebservice {
 		}
 
 	}
-
+//getting the stream from the hltv page because it was embeded as a hlgo match very frustrating
 	private String getStreamFromEmbeded(String watchCatagory) {
 		// TODO Auto-generated method stub
 		String response;
@@ -464,7 +465,7 @@ public class csgoWebservice {
 			//System.out.println("fucked");
 			String tempLink = StringUtils.substringBetween(response, "<iframe", ">");
 			tempLink = StringUtils.substringBetween(tempLink, "src=\"", "\"");
-			System.out.println(tempLink);
+			//System.out.println(tempLink);
 			streamLink = tempLink;
 		}
 		// System.out.println(streamLink);

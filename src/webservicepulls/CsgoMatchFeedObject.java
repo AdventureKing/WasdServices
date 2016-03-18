@@ -204,7 +204,9 @@ public String getMatchGameType() {
 	public String toString() {
 		return "CsgoMatchFeedObject [matchtitle=" + matchtitle + ", matchlink=" + matchlink + ", matchEvent="
 				+ matchEvent + ", matchpubDate=" + matchpubDate + ", matchGameType=" + matchGameType + ", teamA="
-				+ teamA + ", teamB=" + teamB + ", statusOfGame=" + statusOfGame + ", betCuttoff=" + betCuttoff + "]\n";
+				+ teamA + ", teamB=" + teamB + ", statusOfGame=" + statusOfGame + ", betCuttoff=" + betCuttoff
+				+ ", team1Odds=" + team1Odds + ", team2Odds=" + team2Odds + ", matchWinner=" + matchWinner
+				+ ", streamLink=" + streamLink + "]";
 	}
 
 

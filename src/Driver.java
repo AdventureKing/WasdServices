@@ -44,7 +44,7 @@ public class Driver {
 		csgoCall.getHltvgoMatchPageinFo();
 		csgoSQLGateway csgoInsert = new csgoSQLGateway();
         csgoInsert.insertMatch(csgoCall.getHLTVGOFeedResults());
-	
+        csgoInsert.updateCsGoMatchTable(csgoCall.getLoungeFinishResults());
 	}
 
 }
