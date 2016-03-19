@@ -180,7 +180,7 @@ public class csgoSQLGateway {
 			}
 			// create statment to push to database
 			//TODO: fix this statement to update the visible column in the db
-			String sql = "UPDATE matchEvent=?,matchType=?,gameTitle=?,gameTimeStart=?,betCutoff=?,team1=?,team2=?,team1Odds=?,team2Odds=?,betOpen=?,streamLink=?,isVisOnSite=?";
+			String sql = "UPDATE csgoMatchData SET isVisOnSite=?, matchWinner=? WHERE team1=?,team2=?";
 			stmt = (PreparedStatement) conn.prepareStatement(sql);
 			
 			
@@ -191,8 +191,18 @@ public class csgoSQLGateway {
 	
 			// put data into query
 			for(CsgoMatchFeedObject listObject: matchList){
+				stmt.setBoolean(1, false);
+				stmt.setString(2, listObject.getMatchWinner());
+			
+				stmt.setString(3, listObject.getTeamA());
+				stmt.setString(4, listObject.getTeamB());
 				
 			}
+			
+			int[] count = stmt.executeBatch();
+			System.out.println("Updated " + count.length + " records for csgoMatchTable");
+			conn.commit();
+			conn.setAutoCommit(true);
 			} catch (SQLException e) {
 				try {
 					conn.rollback();

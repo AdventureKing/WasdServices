@@ -30,7 +30,9 @@ final String matchlink;
   private String statusOfGame;
   private String betCuttoff;
   private Float team1Odds;
-  private float team2Odds;
+  
+
+private float team2Odds;
   private String matchWinner = "";
   private String streamLink = "";
   
@@ -191,8 +193,9 @@ public String getMatchpubDate() {
 }
 
 
-
-
+public void setMatchEvent(String matchEvent) {
+	this.matchEvent = matchEvent;
+}
 
 
 public String getMatchGameType() {
@@ -202,11 +205,11 @@ public String getMatchGameType() {
 
 	  @Override
 	public String toString() {
-		return "CsgoMatchFeedObject [matchtitle=" + matchtitle + ", matchlink=" + matchlink + ", matchEvent="
-				+ matchEvent + ", matchpubDate=" + matchpubDate + ", matchGameType=" + matchGameType + ", teamA="
-				+ teamA + ", teamB=" + teamB + ", statusOfGame=" + statusOfGame + ", betCuttoff=" + betCuttoff
-				+ ", team1Odds=" + team1Odds + ", team2Odds=" + team2Odds + ", matchWinner=" + matchWinner
-				+ ", streamLink=" + streamLink + "]";
+		return "CsgoMatchFeedObject [matchtitle=" + matchtitle + "\n" +" matchlink=" + matchlink + "\n"+ ", matchEvent="
+				+ matchEvent + "\n"+ ", matchpubDate=" + matchpubDate + "\n"+ ", matchGameType=" + matchGameType + "\n"+ ", teamA="
+				+ teamA + "\n"+ ", teamB=" + teamB + "\n"+ ", statusOfGame=" + statusOfGame+ "\n" + ", betCuttoff=" + betCuttoff+ "\n"
+				+ ", team1Odds=" + team1Odds + "\n"+ ", team2Odds=" + team2Odds + "\n"+ ", matchWinner=" + matchWinner+ "\n"
+				+ ", streamLink=" + streamLink + "\n"+ "]";
 	}
 
 
