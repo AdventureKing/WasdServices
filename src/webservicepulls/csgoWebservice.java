@@ -132,13 +132,13 @@ public class csgoWebservice {
 
 				// need to convert time stamp to match time stamp that will be
 				// in db
-				String timeWhen = explrObject.get("when").toString().toLowerCase();
-				String matchEvent = explrObject.getString("event").toString().toLowerCase();
-				String teamA = explrObject.getString("a").toString().toLowerCase();
-				String teamB = explrObject.getString("b").toString().toLowerCase();
+				String timeWhen = explrObject.get("when").toString();
+				String matchEvent = explrObject.getString("event").toString();
+				String teamA = explrObject.getString("a").toString();
+				String teamB = explrObject.getString("b").toString();
 				String matchTitle = teamA + " vs " + teamB;
 				//System.out.println(matchTitle);
-				String matchWinner = explrObject.getString("winner").toString().toLowerCase();
+				String matchWinner = explrObject.getString("winner").toString();
 				
 				if (matchWinner.equals("a")) {
 					matchWinner = teamA;
@@ -268,8 +268,8 @@ public class csgoWebservice {
 			line = (Element) gametype.item(0);
 			String tempgameType = getCharacterDataFromElement(line);
 
-			CsgoMatchFeedObject tempObject = new CsgoMatchFeedObject(tempName.toLowerCase(), templink, tempdes.toLowerCase(), tempPubDate,
-					tempgameType.toLowerCase(), "", "", 0);
+			CsgoMatchFeedObject tempObject = new CsgoMatchFeedObject(tempName, templink, tempdes, tempPubDate,
+					tempgameType, "", "", 0);
 			feedResults.add(tempObject);
 		}
 
@@ -351,7 +351,7 @@ public class csgoWebservice {
 			matchEvent = matchEvent + "<";
 			matchEvent = StringUtils.substringBetween(matchEvent,">", "<");
 			//System.out.println(matchEvent);
-			feedObject.setMatchEvent(matchEvent.toLowerCase());
+			feedObject.setMatchEvent(matchEvent);
 			// if i was able to pull the match
 			if (watchCatagory != null) {
 				watchCatagory = watchCatagory.replaceAll("amp;", "");
@@ -385,7 +385,7 @@ public class csgoWebservice {
 			}
 			bestOf = bestOf.replaceAll("[^a-zA-Z0-9]", "");
 			// System.out.println("WHAT IS IT " +bestOf);
-			feedObject.setMatchGameType(bestOf.toLowerCase());
+			feedObject.setMatchGameType(bestOf);
 
 			// set odds
 			if (team1Odds == null) {
