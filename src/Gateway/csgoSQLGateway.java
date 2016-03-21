@@ -166,86 +166,83 @@ public class csgoSQLGateway {
 
 	}
 
-	public void updateCsGoMatchTable(ArrayList<CsgoMatchFeedObject> matchList){
-		
+	public void updateCsGoMatchTable(ArrayList<CsgoMatchFeedObject> matchList) {
+
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		try {
-			if(conn == null)
-			{
-				
-			conn = ds.getConnection();
-			
-			System.out.println("connection made for AWS");
+			if (conn == null) {
+
+				conn = ds.getConnection();
+
+				System.out.println("connection made for AWS");
 			}
 			// create statment to push to database
-			//TODO: fix this statement to update the visible column in the db
-			String sql = "UPDATE csgoMatchData SET isVisOnSite=? AND matchWinner=? WHERE team1=? AND team2=?";
+			// TODO: fix this statement to update the visible column in the db
+			String sql = "UPDATE csgoMatchData SET isVisOnSite=?, matchWinner=? WHERE team1=? AND team2=?";
 			stmt = (PreparedStatement) conn.prepareStatement(sql);
-			
-			
-			//set autocommit to false
+
+			// set autocommit to false
 			conn.setAutoCommit(false);
-			//set time out so no lag
-			
-	
+			// set time out so no lag
+
 			// put data into query
-			for(CsgoMatchFeedObject listObject: matchList){
+			for (CsgoMatchFeedObject listObject : matchList) {
 				stmt.setBoolean(1, false);
 				stmt.setString(2, listObject.getMatchWinner());
-			
+
 				stmt.setString(3, listObject.getTeamA());
 				stmt.setString(4, listObject.getTeamB());
-				
+
 			}
-			
+
 			int[] count = stmt.executeBatch();
 			System.out.println("Updated " + count.length + " records for csgoMatchTable");
 			conn.commit();
 			conn.setAutoCommit(true);
-			} catch (SQLException e) {
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+
+		} finally {
+
+			// close rs
+			if (rs != null) {
 				try {
-					conn.rollback();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				e.printStackTrace();
-
-			} finally {
-
-				// close rs
-				if (rs != null) {
-					try {
-						rs.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-				// close stmt
-				if (stmt != null) {
-					try {
-						stmt.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-				// close conn
-				if (conn != null) {
-					try {
-						conn.setAutoCommit(true);
-						conn.close();
-
-						conn = null;
-
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
 			}
 
-			System.out.println("Connection terminated");
+			// close stmt
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			// close conn
+			if (conn != null) {
+				try {
+					conn.setAutoCommit(true);
+					conn.close();
+
+					conn = null;
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		System.out.println("Connection terminated");
 	}
 }

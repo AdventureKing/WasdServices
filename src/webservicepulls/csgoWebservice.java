@@ -39,10 +39,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.w3c.dom.CharacterData;
 
-
-
-
-
 public class csgoWebservice {
 
 	public SSLContext getContext() {
@@ -56,9 +52,7 @@ public class csgoWebservice {
 	public csgoWebservice() {
 	}
 
-	
-
-//get newest matchs from hltv
+	// get newest matchs from hltv
 	public void hltvMatchFeedCall() {
 
 		feedResults = new ArrayList<CsgoMatchFeedObject>();
@@ -175,7 +169,8 @@ public class csgoWebservice {
 		}
 
 	}
-//scrape match page info for stream and for matchEvent
+
+	// scrape match page info for stream and for matchEvent
 	public void getHltvgoMatchPageinFo() {
 
 		String response;
@@ -238,22 +233,24 @@ public class csgoWebservice {
 			// System.out.println(response);
 
 			String Link = StringUtils.substringBetween(response, "<div id=\"mapformatbox\">", "</div>");
-			
+
 			String watchCatagory = StringUtils.substringBetween(response,
 					"<div style=\"float:right;position:relative;\"><a href=\"", "<img src=");
-			
+
 			String team1Odds = StringUtils.substringBetween(response,
 					"<td style=\"text-align: right;\" id=\"voteteam1results\">", "</td>");
 			String team2Odds = StringUtils.substringBetween(response,
 					"<td style=\"text-align: right;\" id=\"voteteam2results\">", "</td>");
-			/*<div style="text-align:center;font-size: 18px;">
-			 * <a href="/?pageid=82&amp;eventid=2124">ESL Pro League Season 3</a></div>
+			/*
+			 * <div style="text-align:center;font-size: 18px;"> <a
+			 * href="/?pageid=82&amp;eventid=2124">ESL Pro League Season
+			 * 3</a></div>
 			 */
 			String matchEvent = StringUtils.substringBetween(response,
 					"<div style=\"text-align:center;font-size: 18px;\"><a href=", "</a>");
 			matchEvent = matchEvent + "<";
-			matchEvent = StringUtils.substringBetween(matchEvent,">", "<");
-			//System.out.println(matchEvent);
+			matchEvent = StringUtils.substringBetween(matchEvent, ">", "<");
+			// System.out.println(matchEvent);
 			feedObject.setMatchEvent(matchEvent);
 			// if i was able to pull the match
 			if (watchCatagory != null) {
@@ -262,30 +259,27 @@ public class csgoWebservice {
 			}
 			// add tag
 			Link = "<br>" + Link;
-			 //System.out.println(Link);
+			// System.out.println(Link);
 			String streamLink = StringUtils.substringBetween(Link, "<a href=\"", "\">English stream</a>");
 			// set stream link
-			//System.out.println(watchCatagory);
-			
+			// System.out.println(watchCatagory);
+
+			if (watchCatagory != null) {
+
+				watchCatagory = "http://www.hltv.org/" + watchCatagory;
+				watchCatagory = getStreamFromEmbeded(watchCatagory);
 				if (watchCatagory != null) {
-					
-					watchCatagory = "http://www.hltv.org/" + watchCatagory;
-					watchCatagory = getStreamFromEmbeded(watchCatagory);
-					if(watchCatagory != null){
 					feedObject.setStreamLink(watchCatagory);
-					}
-					else
-					feedObject.setStreamLink("No Stream As of Yet Check Back Later");	
-					
-				} else {
-					if(streamLink != null){
-						feedObject.setStreamLink(streamLink);
-					}else
+				} else
 					feedObject.setStreamLink("No Stream As of Yet Check Back Later");
-				}
-		
-				
-			
+
+			} else {
+				if (streamLink != null) {
+					feedObject.setStreamLink(streamLink);
+				} else
+					feedObject.setStreamLink("No Stream As of Yet Check Back Later");
+			}
+
 			// sejt best of
 			String bestOf = StringUtils.substringBetween(Link, "<br>", "<br />");
 			if (bestOf == null) {
@@ -305,7 +299,7 @@ public class csgoWebservice {
 				team1Odds = team1Odds.replaceAll("%", "");
 				team1Odds = team1Odds.replaceAll("-", "");
 				// System.out.println("Match");
-				//System.out.println(team1Odds);
+				// System.out.println(team1Odds);
 				team2Odds = team2Odds.replaceAll(" ", "");
 				team2Odds = team2Odds.replaceAll("%", "");
 				team2Odds = team2Odds.replaceAll("-", "");
@@ -322,7 +316,9 @@ public class csgoWebservice {
 		}
 
 	}
-//getting the stream from the hltv page because it was embeded as a hlgo match very frustrating
+
+	// getting the stream from the hltv page because it was embeded as a hlgo
+	// match very frustrating
 	private String getStreamFromEmbeded(String watchCatagory) {
 		// TODO Auto-generated method stub
 		String response;
@@ -374,17 +370,17 @@ public class csgoWebservice {
 			// chain the causing exception to a new RuntimeException
 			throw new RuntimeException(e);
 		}
-		 //System.out.println(response);
+		// System.out.println(response);
 		String streamLink = StringUtils.substringBetween(response, "<iframe src=\"", "\" frameborder=\"0\"");
 		streamLink = streamLink + ">";
 		streamLink = StringUtils.substringBetween(streamLink, "<div><iframe src=\"", ">");
-		//System.out.println(streamLink);
-		
-		if(streamLink == null){
-			//System.out.println("fucked");
+		// System.out.println(streamLink);
+
+		if (streamLink == null) {
+			// System.out.println("fucked");
 			String tempLink = StringUtils.substringBetween(response, "<iframe", ">");
 			tempLink = StringUtils.substringBetween(tempLink, "src=\"", "\"");
-			//System.out.println(tempLink);
+			// System.out.println(tempLink);
 			streamLink = tempLink;
 		}
 		// System.out.println(streamLink);
@@ -411,7 +407,7 @@ public class csgoWebservice {
 	public void setFeedResults(ArrayList<CsgoMatchFeedObject> feedResults) {
 		this.feedResults = feedResults;
 	}
-	
+
 	public ArrayList<CsgoMatchFeedObject> getFinishResults() {
 		return FinishResults;
 	}
