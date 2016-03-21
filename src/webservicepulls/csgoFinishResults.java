@@ -193,18 +193,28 @@ public class csgoFinishResults {
 			// got all the match info I want: matchId, team1Name, team2Name, and
 			// Details link
 			// so print it
-			System.out.println("Match Id: " + matchId + "\n\t" + team1Name + "  vs.  " + team2Name);
-			System.out.println("\tLink: " + urlRoot + detailsLink);
+			//System.out.println("Match Id: " + matchId + "\n\t" + team1Name + " vs " + team2Name);
+			//System.out.println("\tLink: " + urlRoot + detailsLink);
+			//System.out.println("winner:" + winner);
 			if (overYN.equals("Yes")) {
-				if (winner.equals("team1"))
-					System.out.println("\t*** MATCH IS OVER! Winner is " + team1Name);
-				else if (winner.equals("team2"))
-					System.out.println("\t*** MATCH IS OVER! Winner is " + team2Name);
-				else if (winner.equals("draw"))
-					System.out.println("\t*** MATCH IS OVER! No winner");
-				else
-					System.out.println("\t*** MATCH IS OVER! Unknown result!");
+				if (winner.equals("team1")){
+				
+					//System.out.println("\t*** MATCH IS OVER! Winner is " + team1Name);
+					winner = team1Name;
+				}else if (winner.equals("team2")){
+					//System.out.println("\t*** MATCH IS OVER! Winner is " + team2Name);
+					winner = team2Name;
+				}else if (winner.equals("draw")){
+					//System.out.println("\t*** MATCH IS OVER! No winner");
+					winner = "draw";
+				}else{
+					//System.out.println("\t*** MATCH IS OVER! Unknown result!");
+				}
 			}
+			String matchTitle = team1Name + " vs " + team2Name;
+			String matchLink = urlRoot + detailsLink;
+			CsgoMatchFeedObject tempObject = new CsgoMatchFeedObject(matchTitle,matchLink, "", "","", team1Name, team2Name, 1);
+			FinishResults.add(tempObject);
 			System.out.println();
 		}
 

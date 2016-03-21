@@ -21,21 +21,21 @@ public class Driver {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		/*try {
+		try {
 			csgoCallFinishMatches.csgoMatchFinishFeedCall();
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		csgoCallGenerateMatches.getHltvgoMatchPageinFo();
-		//System.out.println("going into database: " + csgoCallGenerateMatches.getHLTVGOFeedResults());
-		//System.out.print("\n\n\n\n\n\n\n\n\n\n");
-		//System.out.println("getting closed in database: " + csgoCall.getFinishResults().toString());
+		System.out.println("going into database: " + csgoCallGenerateMatches.getHLTVGOFeedResults());
+		System.out.print("\n\n\n\n\n\n\n\n\n\n");
+		System.out.println("getting closed in database: " + csgoCallFinishMatches.getFinishResults().toString());
 	
 		csgoSQLGateway csgoInsert = new csgoSQLGateway();
         csgoInsert.insertMatch(csgoCallGenerateMatches.getHLTVGOFeedResults());
         
-        //csgoInsert.updateCsGoMatchTable(csgoCallFinishMatches.getFinishResults());
+        csgoInsert.updateCsGoMatchTable(csgoCallFinishMatches.getFinishResults());
 	}
 
 }
