@@ -1,5 +1,6 @@
 //import Gateway.csgoSQLGateway;
 import webservicepulls.CsgoMatchFeedObject;
+import webservicepulls.csgoFinishResults;
 import webservicepulls.csgoWebservice;
 
 import java.util.ArrayList;
@@ -12,28 +13,29 @@ public class Driver {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Start webservice pull");
-		csgoWebservice csgoCall = new csgoWebservice();
+		csgoWebservice csgoCallGenerateMatches = new csgoWebservice();
+		csgoFinishResults csgoCallFinishMatches = new csgoFinishResults();
 		try {
-			csgoCall.hltvMatchFeedCall();
+			csgoCallGenerateMatches.hltvMatchFeedCall();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		try {
-			csgoCall.csgoLoungeMatchFeedCall();
+		/*try {
+			csgoCallFinishMatches.csgoMatchFinishFeedCall();
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		csgoCall.getHltvgoMatchPageinFo();
-		System.out.println("going into database: " + csgoCall.getHLTVGOFeedResults());
-		System.out.print("\n\n\n\n\n\n\n\n\n\n");
-		System.out.println("getting closed in database: " + csgoCall.getLoungeFinishResults().toString());
+		}*/
+		csgoCallGenerateMatches.getHltvgoMatchPageinFo();
+		//System.out.println("going into database: " + csgoCallGenerateMatches.getHLTVGOFeedResults());
+		//System.out.print("\n\n\n\n\n\n\n\n\n\n");
+		//System.out.println("getting closed in database: " + csgoCall.getFinishResults().toString());
 	
 		csgoSQLGateway csgoInsert = new csgoSQLGateway();
-        csgoInsert.insertMatch(csgoCall.getHLTVGOFeedResults());
+        csgoInsert.insertMatch(csgoCallGenerateMatches.getHLTVGOFeedResults());
         
-        csgoInsert.updateCsGoMatchTable(csgoCall.getLoungeFinishResults());
+        //csgoInsert.updateCsGoMatchTable(csgoCallFinishMatches.getFinishResults());
 	}
 
 }

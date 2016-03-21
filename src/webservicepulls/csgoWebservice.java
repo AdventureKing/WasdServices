@@ -29,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.select.Elements;
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -38,6 +39,10 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.w3c.dom.CharacterData;
 
+
+
+
+
 public class csgoWebservice {
 
 	public SSLContext getContext() {
@@ -46,116 +51,12 @@ public class csgoWebservice {
 
 	private SSLContext context = null;
 	private ArrayList<CsgoMatchFeedObject> feedResults;
-	private ArrayList<CsgoMatchFeedObject> loungeFinishResults;
+	private ArrayList<CsgoMatchFeedObject> FinishResults;
 
 	public csgoWebservice() {
 	}
-//get closed matches from csgoLounge
-	public void csgoLoungeMatchFeedCall() throws JSONException {
-		loungeFinishResults = new ArrayList<CsgoMatchFeedObject>();
-		String response;
-		URL wsURL;
-		try {
 
-			wsURL = new URL("http://csgolounge.com/api/matches");
-			String protocol = wsURL.getProtocol();
-			if (!protocol.equalsIgnoreCase("https") && !protocol.equalsIgnoreCase("http"))
-				throw new IllegalArgumentException("WS URL must be valid HTTP or HTTPS web resource");
-		} catch (MalformedURLException e) {
-			throw new IllegalArgumentException("WS URL must be valid HTTP or HTTPS web resource");
-		}
-		// url that has been filled
-		URL tempURL = wsURL;
-		try {
-			// create a http request
-			HttpURLConnection connection = null;
-
-			if (tempURL.getProtocol().equalsIgnoreCase("https")) {
-				// Create an SSL connection that that uses our SSL context
-				connection = (HttpsURLConnection) tempURL.openConnection();
-				((HttpsURLConnection) connection).setSSLSocketFactory(context.getSocketFactory());
-			} else {
-				connection = (HttpURLConnection) tempURL.openConnection();
-			}
-			// connection.setRequestMethod("POST");
-			//set browser and request methods
-			connection.setRequestMethod("GET");
-			connection.setRequestProperty("User-Agent", "Mozilla/5.0");
-			connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-
-			// Send request
-			connection.setDoOutput(true);
-
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			java.io.InputStream in = connection.getInputStream();
-			if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-
-			}
-			// read all bytes from open stream
-			int bytesRead = 0;
-			byte[] buffer = new byte[1024];
-			while ((bytesRead = in.read(buffer)) > 0) {
-				out.write(buffer, 0, bytesRead);
-			}
-			out.close();
-			// store all bytes read to the response buffer for document builder
-			response = new String(out.toByteArray());
-
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException("Web resource not found!");
-		} catch (Exception e) {
-			// chain the causing exception to a new RuntimeException
-			throw new RuntimeException(e);
-		}
-
-		// test print the reesponse
-		// System.out.println(response);
-		// JSONObject jsnobject = new JSONObject(response);
-		JSONArray jsonArray = new JSONArray(response);
-
-		for (int i = 0; i < jsonArray.length(); i++) {
-			JSONObject explrObject = jsonArray.getJSONObject(i);
-			String delims = "-";
-			String[] tokens = explrObject.get("when").toString().split(delims);
-			// System.out.println("teamA: " + tokens[0] + "TeamB:" + tokens[1]);
-			String year = tokens[0];
-			String month = tokens[1];
-			// System.out.println(month);
-			int yearActual = Calendar.getInstance().get(Calendar.YEAR);
-			int monthActual = Calendar.getInstance().get((Calendar.MONTH)) + 1;
-			// System.out.println(monthActual);
-			if (Integer.parseInt(year) == yearActual && Integer.parseInt(month) == monthActual
-					&& !explrObject.get("winner").toString().equals("")) {
-				//if(!explrObject.getString("winner").toString().equals("")){
-					
-				// System.out.println(explrObject.get("event").toString());
-
-				// need to convert time stamp to match time stamp that will be
-				// in db
-				String timeWhen = explrObject.get("when").toString();
-				String matchEvent = explrObject.getString("event").toString();
-				String teamA = explrObject.getString("a").toString();
-				String teamB = explrObject.getString("b").toString();
-				String matchTitle = teamA + " vs " + teamB;
-				//System.out.println(matchTitle);
-				String matchWinner = explrObject.getString("winner").toString();
-				
-				if (matchWinner.equals("a")) {
-					matchWinner = teamA;
-				} else if (matchWinner.equals("b")) {
-					matchWinner = teamB;
-				} else {
-					matchWinner = "Closed";
-				}
-				CsgoMatchFeedObject tempObject = new CsgoMatchFeedObject(matchTitle, "", matchEvent, timeWhen, "",
-						teamA, teamB, 1);
-				tempObject.setMatchWinner(matchWinner);
-				loungeFinishResults.add(tempObject);
-			}
-			//}
-		}
-
-	}
+	
 
 //get newest matchs from hltv
 	public void hltvMatchFeedCall() {
@@ -337,8 +238,10 @@ public class csgoWebservice {
 			// System.out.println(response);
 
 			String Link = StringUtils.substringBetween(response, "<div id=\"mapformatbox\">", "</div>");
+			
 			String watchCatagory = StringUtils.substringBetween(response,
 					"<div style=\"float:right;position:relative;\"><a href=\"", "<img src=");
+			
 			String team1Odds = StringUtils.substringBetween(response,
 					"<td style=\"text-align: right;\" id=\"voteteam1results\">", "</td>");
 			String team2Odds = StringUtils.substringBetween(response,
@@ -365,9 +268,15 @@ public class csgoWebservice {
 			//System.out.println(watchCatagory);
 			
 				if (watchCatagory != null) {
+					
 					watchCatagory = "http://www.hltv.org/" + watchCatagory;
 					watchCatagory = getStreamFromEmbeded(watchCatagory);
+					if(watchCatagory != null){
 					feedObject.setStreamLink(watchCatagory);
+					}
+					else
+					feedObject.setStreamLink("No Stream As of Yet Check Back Later");	
+					
 				} else {
 					if(streamLink != null){
 						feedObject.setStreamLink(streamLink);
@@ -463,8 +372,12 @@ public class csgoWebservice {
 			// chain the causing exception to a new RuntimeException
 			throw new RuntimeException(e);
 		}
-		// System.out.println(response);
+		 //System.out.println(response);
 		String streamLink = StringUtils.substringBetween(response, "<iframe src=\"", "\" frameborder=\"0\"");
+		streamLink = streamLink + ">";
+		streamLink = StringUtils.substringBetween(streamLink, "<div><iframe src=\"", ">");
+		//System.out.println(streamLink);
+		
 		if(streamLink == null){
 			//System.out.println("fucked");
 			String tempLink = StringUtils.substringBetween(response, "<iframe", ">");
@@ -497,11 +410,11 @@ public class csgoWebservice {
 		this.feedResults = feedResults;
 	}
 	
-	public ArrayList<CsgoMatchFeedObject> getLoungeFinishResults() {
-		return loungeFinishResults;
+	public ArrayList<CsgoMatchFeedObject> getFinishResults() {
+		return FinishResults;
 	}
 
-	public void setLoungeFinishResults(ArrayList<CsgoMatchFeedObject> loungeFinishResults) {
-		this.loungeFinishResults = loungeFinishResults;
+	public void setsFinishResults(ArrayList<CsgoMatchFeedObject> loungeFinishResults) {
+		this.FinishResults = loungeFinishResults;
 	}
 }
