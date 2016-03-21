@@ -303,12 +303,14 @@ public class csgoWebservice {
 			} else {
 				team1Odds = team1Odds.replaceAll(" ", "");
 				team1Odds = team1Odds.replaceAll("%", "");
+				team1Odds = team1Odds.replaceAll("-", "");
 				// System.out.println("Match");
-				// System.out.println(team1Odds);
+				//System.out.println(team1Odds);
 				team2Odds = team2Odds.replaceAll(" ", "");
 				team2Odds = team2Odds.replaceAll("%", "");
+				team2Odds = team2Odds.replaceAll("-", "");
 				// System.out.println(team2Odds);
-				if (team1Odds == "-") {
+				if (team1Odds.isEmpty() || team2Odds.isEmpty()) {
 					feedObject.setTeam1Odds((float) 50);
 					feedObject.setTeam2Odds((float) 50);
 				} else {

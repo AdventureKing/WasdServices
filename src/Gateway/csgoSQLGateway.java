@@ -180,7 +180,7 @@ public class csgoSQLGateway {
 			}
 			// create statment to push to database
 			//TODO: fix this statement to update the visible column in the db
-			String sql = "UPDATE csgoMatchData SET isVisOnSite=?, matchWinner=? WHERE team1=?,team2=?";
+			String sql = "UPDATE csgoMatchData SET isVisOnSite=? AND matchWinner=? WHERE team1=? AND team2=?";
 			stmt = (PreparedStatement) conn.prepareStatement(sql);
 			
 			
