@@ -32,12 +32,12 @@ public class Driver {
 		csgoCallGenerateMatches.getHltvgoMatchPageinFo();
 		//System.out.println("going into database: " + csgoCallGenerateMatches.getHLTVGOFeedResults());
 		//System.out.print("\n\n\n\n\n\n\n\n\n\n");
-		//System.out.println("getting closed in database: " + csgoCallFinishMatches.getFinishResults().toString());
+		System.out.println("getting closed in database: " + csgoCallFinishMatches.getFinishResults().toString());
 
-		//csgoSQLGateway csgoInsert = new csgoSQLGateway();
-		//csgoInsert.insertMatch(csgoCallGenerateMatches.getHLTVGOFeedResults());
+		csgoSQLGateway csgoInsert = new csgoSQLGateway();
+		csgoInsert.insertMatch(csgoCallGenerateMatches.getHLTVGOFeedResults());
 
-		//csgoInsert.updateCsGoMatchTable(csgoCallFinishMatches.getFinishResults());
+		csgoInsert.updateCsGoMatchTable(csgoCallFinishMatches.getFinishResults());
 	}
 
 }

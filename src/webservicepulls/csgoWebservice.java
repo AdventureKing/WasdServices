@@ -378,10 +378,11 @@ public class csgoWebservice {
 		//System.out.println(response);
 		String streamLink = null;
 		org.jsoup.nodes.Document doc = Jsoup.parse(response);
+		//get the second iframe which is not the special one but the one i can use due to legal issues with the first one
 		org.jsoup.nodes.Element matchDivs = doc.select("iframe").get(1);
 		String tempStr = matchDivs.attr("src");
 		if (tempStr.length() == 0) {
-			System.err.println("Cannot find");
+			System.err.println("Cannot find match Stream on the watchCatagory page we dun goofed line 384 csgoWebservice.java");
 			
 		}
 		//System.out.println(tempStr);
