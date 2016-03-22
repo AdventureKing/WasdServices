@@ -371,10 +371,14 @@ public class csgoWebservice {
 			throw new RuntimeException(e);
 		}
 		// System.out.println(response);
-		String streamLink = StringUtils.substringBetween(response, "<iframe src=\"", "\" frameborder=\"0\"");
-		streamLink = streamLink + ">";
-		streamLink = StringUtils.substringBetween(streamLink, "<div><iframe src=\"", ">");
-		// System.out.println(streamLink);
+		String tempString = StringUtils.substringBetween(response, "<div class=\"centerNoHeadline\">","</iframe>"); 
+		String streamLink = StringUtils.substringBetween(tempString, "<div><iframe src=\"", "\"");
+		if(streamLink == null){
+			streamLink = StringUtils.substringBetween(tempString, "<div><iframe width=\"100%\" height=\"360\" src=\"", "\"");
+		}
+		//streamLink = streamLink + ">";
+		//streamLink = StringUtils.substringBetween(streamLink, "<div><iframe src=\"", ">");
+		 //System.out.println(streamLink);
 
 		if (streamLink == null) {
 			// System.out.println("fucked");
