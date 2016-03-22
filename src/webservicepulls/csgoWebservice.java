@@ -325,7 +325,7 @@ public class csgoWebservice {
 	// match very frustrating
 	private String getStreamFromEmbeded(String watchCatagory) {
 		// TODO Auto-generated method stub
-		System.out.println("HIt Here");
+		//System.out.println("HIt Here");
 		String response;
 
 		URL tempURL = null;
@@ -378,36 +378,14 @@ public class csgoWebservice {
 		//System.out.println(response);
 		String streamLink = null;
 		org.jsoup.nodes.Document doc = Jsoup.parse(response);
-		org.jsoup.select.Elements matchDivs = doc.getElementsByClass("iframe");
-		for (org.jsoup.nodes.Element matchDiv : matchDivs){
+		org.jsoup.nodes.Element matchDivs = doc.select("iframe").get(1);
+		String tempStr = matchDivs.attr("src");
+		if (tempStr.length() == 0) {
+			System.err.println("Cannot find");
 			
-			System.out.println(matchDiv);
-			String tempStr = matchDiv.attr("src");
-			if (tempStr.length() == 0) {
-				System.err.println("Cannot find");
-				continue;
-			}
-			System.out.println(tempStr);
 		}
-		/*
-		// System.out.println(response);
-		String tempString = StringUtils.substringBetween(response, "<div class=\"centerNoHeadline\">","</iframe>"); 
-		String streamLink = StringUtils.substringBetween(tempString, "<div><iframe src=\"", "\"");
-		if(streamLink == null){
-			streamLink = StringUtils.substringBetween(tempString, "<div><iframe width=\"100%\" height=\"360\" src=\"", "\"");
-		}
-		//streamLink = streamLink + ">";
-		//streamLink = StringUtils.substringBetween(streamLink, "<div><iframe src=\"", ">");
-		 //System.out.println(streamLink);
-
-		if (streamLink == null) {
-			// System.out.println("fucked");
-			String tempLink = StringUtils.substringBetween(response, "<iframe", ">");
-			tempLink = StringUtils.substringBetween(tempLink, "src=\"", "\"");
-			// System.out.println(tempLink);
-			streamLink = tempLink;
-		}*/
-		// System.out.println(streamLink);
+		//System.out.println(tempStr);
+		streamLink = tempStr;
 		return streamLink;
 	}
 
