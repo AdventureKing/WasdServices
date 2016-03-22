@@ -375,7 +375,7 @@ public class csgoWebservice {
 			// chain the causing exception to a new RuntimeException
 			throw new RuntimeException(e);
 		}
-		System.out.println(response);
+		//System.out.println(response);
 		String streamLink = null;
 		org.jsoup.nodes.Document doc = Jsoup.parse(response);
 		org.jsoup.select.Elements matchDivs = doc.getElementsByClass("iframe");

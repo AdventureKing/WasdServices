@@ -200,8 +200,8 @@ public class csgoFinishResults {
 			if (overYN.equals("Yes")) {
 				if (winner.equals("team1")) {
 
-					// System.out.println("\t*** MATCH IS OVER! Winner is " +
-					// team1Name);
+					System.out.println("\t*** MATCH IS OVER! Winner is " +
+					 team1Name);
 					winner = team1Name;
 					String matchTitle = team1Name + " vs " + team2Name;
 					String matchLink = urlRoot + detailsLink;
@@ -213,8 +213,8 @@ public class csgoFinishResults {
 					// System.out.println(tempObject.getMatchWinner());
 					FinishResults.add(tempObject);
 				} else if (winner.equals("team2")) {
-					// System.out.println("\t*** MATCH IS OVER! Winner is " +
-					// team2Name);
+					System.out.println("\t*** MATCH IS OVER! Winner is " +
+					 team2Name);
 					winner = team2Name;
 					String matchTitle = team1Name + " vs " + team2Name;
 					String matchLink = urlRoot + detailsLink;
