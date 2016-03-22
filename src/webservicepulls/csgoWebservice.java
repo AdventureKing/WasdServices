@@ -29,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.w3c.dom.Document;
@@ -38,6 +39,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.w3c.dom.CharacterData;
+
+import org.jsoup.Jsoup;
+
 
 public class csgoWebservice {
 
@@ -265,7 +269,7 @@ public class csgoWebservice {
 			// System.out.println(watchCatagory);
 
 			if (watchCatagory != null) {
-
+				//System.out.println("Hit here in watchCatagory check");
 				watchCatagory = "http://www.hltv.org/" + watchCatagory;
 				watchCatagory = getStreamFromEmbeded(watchCatagory);
 				if (watchCatagory != null) {
@@ -321,6 +325,7 @@ public class csgoWebservice {
 	// match very frustrating
 	private String getStreamFromEmbeded(String watchCatagory) {
 		// TODO Auto-generated method stub
+		System.out.println("HIt Here");
 		String response;
 
 		URL tempURL = null;
@@ -370,6 +375,21 @@ public class csgoWebservice {
 			// chain the causing exception to a new RuntimeException
 			throw new RuntimeException(e);
 		}
+		System.out.println(response);
+		String streamLink = null;
+		org.jsoup.nodes.Document doc = Jsoup.parse(response);
+		org.jsoup.select.Elements matchDivs = doc.getElementsByClass("iframe");
+		for (org.jsoup.nodes.Element matchDiv : matchDivs){
+			
+			System.out.println(matchDiv);
+			String tempStr = matchDiv.attr("src");
+			if (tempStr.length() == 0) {
+				System.err.println("Cannot find");
+				continue;
+			}
+			System.out.println(tempStr);
+		}
+		/*
 		// System.out.println(response);
 		String tempString = StringUtils.substringBetween(response, "<div class=\"centerNoHeadline\">","</iframe>"); 
 		String streamLink = StringUtils.substringBetween(tempString, "<div><iframe src=\"", "\"");
@@ -386,7 +406,7 @@ public class csgoWebservice {
 			tempLink = StringUtils.substringBetween(tempLink, "src=\"", "\"");
 			// System.out.println(tempLink);
 			streamLink = tempLink;
-		}
+		}*/
 		// System.out.println(streamLink);
 		return streamLink;
 	}
