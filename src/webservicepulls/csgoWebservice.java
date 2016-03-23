@@ -175,6 +175,10 @@ public class csgoWebservice {
 	}
 
 	// scrape match page info for stream and for matchEvent
+	//need to get link to stream
+	//need to get odds
+	//need to get matchType = best of 
+	//need to get match id from provider
 	public void getHltvgoMatchPageinFo() {
 
 		String response;
@@ -235,90 +239,57 @@ public class csgoWebservice {
 				throw new RuntimeException(e);
 			}
 			// System.out.println(response);
-
-			String Link = StringUtils.substringBetween(response, "<div id=\"mapformatbox\">", "</div>");
-
-			String watchCatagory = StringUtils.substringBetween(response,
-					"<div style=\"float:right;position:relative;\"><a href=\"", "<img src=");
-
-			String team1Odds = StringUtils.substringBetween(response,
-					"<td style=\"text-align: right;\" id=\"voteteam1results\">", "</td>");
-			String team2Odds = StringUtils.substringBetween(response,
-					"<td style=\"text-align: right;\" id=\"voteteam2results\">", "</td>");
+			org.jsoup.nodes.Document doc = Jsoup.parse(response);
+			//get the second iframe which is not the special one but the one i can use due to legal issues with the first one
+			
+			
 			/*
-			 * <div style="text-align:center;font-size: 18px;"> <a
-			 * href="/?pageid=82&amp;eventid=2124">ESL Pro League Season
-			 * 3</a></div>
+			 * test print the match link
 			 */
-			String matchEvent = StringUtils.substringBetween(response,
-					"<div style=\"text-align:center;font-size: 18px;\"><a href=", "</a>");
-			matchEvent = matchEvent + "<";
-			matchEvent = StringUtils.substringBetween(matchEvent, ">", "<");
-			// System.out.println(matchEvent);
-			feedObject.setMatchEvent(matchEvent);
-			// if i was able to pull the match
-			if (watchCatagory != null) {
-				watchCatagory = watchCatagory.replaceAll("amp;", "");
-				watchCatagory = watchCatagory.replaceAll("\">", "");
+			System.out.println("MatchLink:" + feedResults.get(i).matchlink);
+			/*
+			 * Get match type best of need to trim and check but working so far
+			 */
+			org.jsoup.nodes.Element matchGameType = doc.getElementById("mapformatbox");
+			System.out.println("MatchGameType: " + matchGameType.text());
+				
+			/*
+			 * Get Stream Link	
+			 * THIS IS NOT WORKING
+			 */
+			org.jsoup.select.Elements streamLinkForParse = doc.getElementsByClass("hotmatchroundbox");
+			org.jsoup.select.Elements streamLinkTemp = streamLinkForParse.get(0).getElementsByTag("a");
+			String streamLinkTemp1 = streamLinkTemp.get(0).attr("src");
+			
+			System.out.println("Stream Link" + streamLinkTemp1);
+			
+
+			/*
+			 * Get Team 1 and Team 2 odds
+			 * THIS IS WORKING
+			 */
+			org.jsoup.nodes.Element teamOdds1temp = doc.getElementById("voteteam1results");
+			org.jsoup.nodes.Element teamOdds2temp = doc.getElementById("voteteam2results");
+			String team1Odds = null;
+			String team2Odds = null;
+			
+			if(teamOdds2temp == null || teamOdds1temp == null || teamOdds2temp.equals("-") || teamOdds1temp.equals("-") ){
+				team1Odds = "50";
+				team2Odds = "50";
+			}else{
+				team1Odds = teamOdds1temp.text().replaceAll("%", "");
+				team2Odds = teamOdds2temp.text().replaceAll("%", "");
 			}
-			// add tag
-			Link = "<br>" + Link;
-			// System.out.println(Link);
-			String streamLink = StringUtils.substringBetween(Link, "<a href=\"", "\">English stream</a>");
-			// set stream link
-			// System.out.println(watchCatagory);
-
-			if (watchCatagory != null) {
-				//System.out.println("Hit here in watchCatagory check");
-				watchCatagory = "http://www.hltv.org" + watchCatagory;
-				watchCatagory = getStreamFromEmbeded(watchCatagory);
-				if (watchCatagory != null) {
-					feedObject.setStreamLink(watchCatagory);
-				} else
-					feedObject.setStreamLink("No Stream As of Yet Check Back Later");
-
-			} else {
-				if (streamLink != null) {
-					feedObject.setStreamLink(streamLink);
-				} else
-					feedObject.setStreamLink("No Stream As of Yet Check Back Later");
-			}
-
-			// sejt best of
-			String bestOf = StringUtils.substringBetween(Link, "<br>", "<br />");
-			if (bestOf == null) {
-				bestOf = StringUtils.substringBetween(Link, "<br>",
-						"<div style=\"border-top: 1px solid darkgray;margin-bottom: 3px;margin-top:3px;\">");
-			}
-			bestOf = bestOf.replaceAll("[^a-zA-Z0-9]", "");
-			// System.out.println("WHAT IS IT " +bestOf);
-			feedObject.setMatchGameType(bestOf);
-
-			// set odds
-			if (team1Odds == null) {
-				feedObject.setTeam1Odds((float) 50);
-				feedObject.setTeam2Odds((float) 50);
-			} else {
-				team1Odds = team1Odds.replaceAll(" ", "");
-				team1Odds = team1Odds.replaceAll("%", "");
-				team1Odds = team1Odds.replaceAll("-", "");
-				// System.out.println("Match");
-				// System.out.println(team1Odds);
-				team2Odds = team2Odds.replaceAll(" ", "");
-				team2Odds = team2Odds.replaceAll("%", "");
-				team2Odds = team2Odds.replaceAll("-", "");
-				// System.out.println(team2Odds);
-				if (team1Odds.isEmpty() || team2Odds.isEmpty()) {
-					feedObject.setTeam1Odds((float) 50);
-					feedObject.setTeam2Odds((float) 50);
-				} else {
-
-					feedObject.setTeam1Odds(Float.parseFloat(team1Odds));
-					feedObject.setTeam2Odds(Float.parseFloat(team2Odds));
-				}
-			}
+			
+			System.out.println("team 1 odds: " + team1Odds);
+			System.out.println("team 2 odds: " + team2Odds);
+			
+			/*
+			 * Get match id
+			 */
+			
+			
 		}
-
 	}
 
 	// getting the stream from the hltv page because it was embeded as a hlgo
@@ -375,14 +346,14 @@ public class csgoWebservice {
 			// chain the causing exception to a new RuntimeException
 			throw new RuntimeException(e);
 		}
-		System.out.println(response);
+		//System.out.println(response);
 		String streamLink = null;
 		org.jsoup.nodes.Document doc = Jsoup.parse(response);
 		//get the second iframe which is not the special one but the one i can use due to legal issues with the first one
 		org.jsoup.select.Elements divs = doc.getElementsByTag("iframe");
 		int ntmAmount = divs.size();
 		org.jsoup.nodes.Element matchDivs = null;
-		System.out.println("Number of iframes: " + ntmAmount);
+		//System.out.println("Number of iframes: " + ntmAmount);
 		if(ntmAmount == 1){
 			matchDivs = doc.select("iframe").get(0);
 		}else if(ntmAmount == 2){
@@ -395,7 +366,7 @@ public class csgoWebservice {
 			System.err.println("Cannot find match Stream on the watchCatagory page we dun goofed line 384 csgoWebservice.java");
 			
 		}
-		System.out.println(tempStr);
+		//System.out.println(tempStr);
 		streamLink = tempStr;
 		return streamLink;
 	}

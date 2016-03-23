@@ -191,8 +191,8 @@ public class csgoSQLGateway {
 				stmt.setBoolean(1, false);
 				stmt.setString(2, listObject.getMatchWinner());
 
-				stmt.setString(3, listObject.getTeamA());
-				stmt.setString(4, listObject.getTeamB());
+				stmt.setString(3, listObject.getTeamA().trim());
+				stmt.setString(4, listObject.getTeamB().trim());
 
 			}
 
