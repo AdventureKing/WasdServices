@@ -288,8 +288,8 @@ public class csgoWebservice {
 			/*
 			 * Get match id
 			 */
-			
-			
+			String matchId = StringUtils.substringBetween(feedResults.get(i).matchlink, "http://www.hltv.org/match/", "-");
+			System.out.println("Match id: " + matchId);
 		}
 	}
 
