@@ -270,7 +270,7 @@ public class csgoWebservice {
 
 			if (watchCatagory != null) {
 				//System.out.println("Hit here in watchCatagory check");
-				watchCatagory = "http://www.hltv.org/" + watchCatagory;
+				watchCatagory = "http://www.hltv.org" + watchCatagory;
 				watchCatagory = getStreamFromEmbeded(watchCatagory);
 				if (watchCatagory != null) {
 					feedObject.setStreamLink(watchCatagory);
@@ -375,13 +375,14 @@ public class csgoWebservice {
 			// chain the causing exception to a new RuntimeException
 			throw new RuntimeException(e);
 		}
-		//System.out.println(response);
+		System.out.println(response);
 		String streamLink = null;
 		org.jsoup.nodes.Document doc = Jsoup.parse(response);
 		//get the second iframe which is not the special one but the one i can use due to legal issues with the first one
-		org.jsoup.select.Elements divs = doc.getElementsByClass("iframe");
+		org.jsoup.select.Elements divs = doc.getElementsByTag("iframe");
 		int ntmAmount = divs.size();
 		org.jsoup.nodes.Element matchDivs = null;
+		System.out.println("Number of iframes: " + ntmAmount);
 		if(ntmAmount == 1){
 			matchDivs = doc.select("iframe").get(0);
 		}else if(ntmAmount == 2){
