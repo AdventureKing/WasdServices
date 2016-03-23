@@ -251,8 +251,9 @@ public class csgoWebservice {
 			 * Get match type best of need to trim and check but working so far
 			 */
 			org.jsoup.nodes.Element matchGameType = doc.getElementById("mapformatbox");
-			System.out.println("MatchGameType: " + matchGameType.text());
-				
+			//String[] matchGameType_temp = matchGameType.text().split(" ");
+			//String matchType = matchGameType_temp[0] + matchGameType_temp[1];
+			System.out.println("MatchGameType: " + matchGameType.text());	
 			/*
 			 * Get Stream Link	
 			 * THIS IS NOT WORKING
