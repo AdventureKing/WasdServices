@@ -42,7 +42,6 @@ import org.w3c.dom.CharacterData;
 
 import org.jsoup.Jsoup;
 
-
 public class csgoWebservice {
 
 	public SSLContext getContext() {
@@ -175,10 +174,10 @@ public class csgoWebservice {
 	}
 
 	// scrape match page info for stream and for matchEvent
-	//need to get link to stream
-	//need to get odds
-	//need to get matchType = best of 
-	//need to get match id from provider
+	// need to get link to stream
+	// need to get odds
+	// need to get matchType = best of
+	// need to get match id from provider
 	public void getHltvgoMatchPageinFo() {
 
 		String response;
@@ -240,55 +239,71 @@ public class csgoWebservice {
 			}
 			// System.out.println(response);
 			org.jsoup.nodes.Document doc = Jsoup.parse(response);
-			//get the second iframe which is not the special one but the one i can use due to legal issues with the first one
-			
-			
+			// get the second iframe which is not the special one but the one i
+			// can use due to legal issues with the first one
+
 			/*
 			 * test print the match link
 			 */
-			System.out.println("MatchLink:" + feedResults.get(i).matchlink);
+			System.out.println("MatchLink:" + feedObject.matchlink);
 			/*
 			 * Get match type best of need to trim and check but working so far
 			 */
 			org.jsoup.nodes.Element matchGameType = doc.getElementById("mapformatbox");
-			//String[] matchGameType_temp = matchGameType.text().split(" ");
-			//String matchType = matchGameType_temp[0] + matchGameType_temp[1];
-			System.out.println("MatchGameType: " + matchGameType.text());	
+			// String[] matchGameType_temp = matchGameType.text().split(" ");
+			// String matchType = matchGameType_temp[0] + matchGameType_temp[1];
+			System.out.println("MatchGameType: " + matchGameType.text());
 			/*
-			 * Get Stream Link	
-			 * THIS IS NOT WORKING
+			 * Get Stream Link THIS IS NOT WORKING
 			 */
 			org.jsoup.select.Elements streamLinkForParse = doc.getElementsByClass("hotmatchroundbox");
-			org.jsoup.select.Elements streamLinkTemp = streamLinkForParse.get(0).getElementsByTag("a");
-			String streamLinkTemp1 = streamLinkTemp.get(0).attr("src");
-			
+			System.out.println(streamLinkForParse.size());
+			org.jsoup.select.Elements streamLinkTemp = null;
+			streamLinkTemp = streamLinkForParse.get(0).getElementsByTag("a");
+			String streamLinkTemp1 = null;
+			String streamLinkTemp2 = null;
+			if (!streamLinkTemp.isEmpty()) {
+				streamLinkTemp1 = streamLinkTemp.get(0).attr("href");
+				if (streamLinkTemp1 == null) {
+
+				} else {
+					System.out.println("At this point is streamLinkTemp1 is : " + streamLinkTemp1);
+					streamLinkTemp2 = null;
+					streamLinkTemp2 = getStreamFromEmbeded("http://www.hltv.org" + streamLinkTemp1);
+					if (streamLinkTemp2 == null) {
+						streamLinkTemp1 = "No Stream as of yet please check back later";
+					}
+				}
+			} else {
+				streamLinkTemp1 = "No Stream as of yet please check back later";
+			}
+
 			System.out.println("Stream Link" + streamLinkTemp1);
-			
 
 			/*
-			 * Get Team 1 and Team 2 odds
-			 * THIS IS WORKING
+			 * Get Team 1 and Team 2 odds THIS IS WORKING
 			 */
 			org.jsoup.nodes.Element teamOdds1temp = doc.getElementById("voteteam1results");
 			org.jsoup.nodes.Element teamOdds2temp = doc.getElementById("voteteam2results");
 			String team1Odds = null;
 			String team2Odds = null;
-			
-			if(teamOdds2temp == null || teamOdds1temp == null || teamOdds2temp.equals("-") || teamOdds1temp.equals("-") ){
+
+			if (teamOdds2temp == null || teamOdds1temp == null || teamOdds2temp.equals("-")
+					|| teamOdds1temp.equals("-")) {
 				team1Odds = "50";
 				team2Odds = "50";
-			}else{
+			} else {
 				team1Odds = teamOdds1temp.text().replaceAll("%", "");
 				team2Odds = teamOdds2temp.text().replaceAll("%", "");
 			}
-			
+
 			System.out.println("team 1 odds: " + team1Odds);
 			System.out.println("team 2 odds: " + team2Odds);
-			
+
 			/*
 			 * Get match id
 			 */
-			String matchId = StringUtils.substringBetween(feedResults.get(i).matchlink, "http://www.hltv.org/match/", "-");
+			String matchId = StringUtils.substringBetween(feedObject.matchlink, "http://www.hltv.org/match/", "-");
 			System.out.println("Match id: " + matchId);
 		}
 	}
@@ -297,7 +312,7 @@ public class csgoWebservice {
 	// match very frustrating
 	private String getStreamFromEmbeded(String watchCatagory) {
 		// TODO Auto-generated method stub
-		//System.out.println("HIt Here");
+		// System.out.println("HIt Here");
 		String response;
 
 		URL tempURL = null;
@@ -347,27 +362,31 @@ public class csgoWebservice {
 			// chain the causing exception to a new RuntimeException
 			throw new RuntimeException(e);
 		}
-		//System.out.println(response);
+		// System.out.println(response);
 		String streamLink = null;
 		org.jsoup.nodes.Document doc = Jsoup.parse(response);
-		//get the second iframe which is not the special one but the one i can use due to legal issues with the first one
+		// get the second iframe which is not the special one but the one i can
+		// use due to legal issues with the first one
 		org.jsoup.select.Elements divs = doc.getElementsByTag("iframe");
 		int ntmAmount = divs.size();
 		org.jsoup.nodes.Element matchDivs = null;
-		//System.out.println("Number of iframes: " + ntmAmount);
-		if(ntmAmount == 1){
+		// System.out.println("Number of iframes: " + ntmAmount);
+		if (ntmAmount == 1) {
 			matchDivs = doc.select("iframe").get(0);
-		}else if(ntmAmount == 2){
-		matchDivs = doc.select("iframe").get(1);
-		}else{
-			System.out.println("didnt find anything your in trouble line 390:searching iframes csgoWebservice.java for watchCatagory: " + watchCatagory);
+		} else if (ntmAmount == 2) {
+			matchDivs = doc.select("iframe").get(1);
+		} else {
+			System.out.println(
+					"didnt find anything your in trouble line 390:searching iframes csgoWebservice.java for watchCatagory: "
+							+ watchCatagory);
 		}
 		String tempStr = matchDivs.attr("src");
 		if (tempStr.length() == 0) {
-			System.err.println("Cannot find match Stream on the watchCatagory page we dun goofed line 384 csgoWebservice.java");
-			
+			System.err.println(
+					"Cannot find match Stream on the watchCatagory page we dun goofed line 384 csgoWebservice.java");
+
 		}
-		//System.out.println(tempStr);
+		// System.out.println(tempStr);
 		streamLink = tempStr;
 		return streamLink;
 	}
