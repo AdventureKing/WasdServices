@@ -270,7 +270,7 @@ public class csgoWebservice {
 
 			if (watchCatagory != null) {
 				//System.out.println("Hit here in watchCatagory check");
-				watchCatagory = "http://www.hltv.org" + watchCatagory;
+				watchCatagory = "http://www.hltv.org/" + watchCatagory;
 				watchCatagory = getStreamFromEmbeded(watchCatagory);
 				if (watchCatagory != null) {
 					feedObject.setStreamLink(watchCatagory);
@@ -383,9 +383,9 @@ public class csgoWebservice {
 		int ntmAmount = divs.size();
 		org.jsoup.nodes.Element matchDivs = null;
 		if(ntmAmount == 1){
-			
+			matchDivs = doc.select("iframe").get(0);
 		}else if(ntmAmount == 2){
-		matchDivs = doc.select("iframe").get(0);
+		matchDivs = doc.select("iframe").get(1);
 		}else{
 			System.out.println("didnt find anything your in trouble line 390:searching iframes csgoWebservice.java for watchCatagory: " + watchCatagory);
 		}
