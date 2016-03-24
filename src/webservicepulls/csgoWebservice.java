@@ -247,12 +247,31 @@ public class csgoWebservice {
 			 */
 			String TempmatchId = StringUtils.substringBetween(feedObject.matchlink, "http://www.hltv.org/match/", "-");
 			Long matchId = Long.valueOf(TempmatchId);
-			System.out.println("Match id: " + matchId);
+			String tempEventDes = feedObject.matchlink + "STOPPINGPOINT";
+			System.out.println(tempEventDes);
+			String tempEventDes1 = StringUtils.substringBetween(tempEventDes, "http://www.hltv.org/match/", "STOPPINGPOINT");
+			System.out.println(tempEventDes1);
+			String[] eventAry = tempEventDes1.split("-");
+			String eventDes = "";
+			int i1 = 0;
+			for(String ev : eventAry){
+				if(i1== 0 || i==1 || i ==2){
+					
+				}else
+				eventDes = eventDes + " " + ev;
+				System.out.println(ev);
+				
+					
+					i1++;
+				
+			}
+			System.out.println("Event Des: " + eventDes);
+			//System.out.println("Match id: " + matchId);
 
 			/*
 			 * test print the match link
 			 */
-			System.out.println("MatchLink:" + feedObject.matchlink);
+		//	System.out.println("MatchLink:" + feedObject.matchlink);
 			/*
 			 * Get match type best of need to trim and check but working so far
 			 */
@@ -266,7 +285,7 @@ public class csgoWebservice {
 				 matchGameType_value = matchGameType_temp[0] + " " + matchGameType_temp[1] + " "+ matchGameType_temp[2];
 			}
 			
-			System.out.println("MatchGameType: " + matchGameType_value);
+			//System.out.println("MatchGameType: " + matchGameType_value);
 			/*
 			 * Get Stream Link THIS IS NOT WORKING
 			 */
@@ -306,7 +325,7 @@ public class csgoWebservice {
 				streamLinkTemp2 = "No Stream as of yet please check back later";
 			}
 
-			System.out.println("Stream Link" + streamLinkTemp2);
+			//System.out.println("Stream Link" + streamLinkTemp2);
 
 			/*
 			 * Get Team 1 and Team 2 odds THIS IS WORKING
@@ -325,8 +344,8 @@ public class csgoWebservice {
 				team2Odds = teamOdds2temp.text().replaceAll("%", "");
 			}
 
-			System.out.println("team 1 odds: " + team1Odds);
-			System.out.println("team 2 odds: " + team2Odds);
+			//System.out.println("team 1 odds: " + team1Odds);
+			//System.out.println("team 2 odds: " + team2Odds);
 			System.out.println("\n");
 			
 			//set all the data

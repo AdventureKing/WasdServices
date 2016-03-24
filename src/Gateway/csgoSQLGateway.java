@@ -195,7 +195,7 @@ public class csgoSQLGateway {
 				stmt.setString(2, listObject.getMatchWinner());
 
 				stmt.setLong(3,listObject.getMatchIdFromSource());
-
+				stmt.addBatch();
 
 			}
 
