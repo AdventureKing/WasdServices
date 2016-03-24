@@ -29,7 +29,7 @@ public class CsgoMatchFeedObject {
 	private float team2Odds;
 	private String matchWinner = "";
 	private String streamLink = "";
-	private String matchIdFromSource;
+	private long matchIdFromSource;
 
 	public CsgoMatchFeedObject(String title, String link, String description, String pubDate, String matchGameType,
 			String teamA, String teamB, int statusOfGame) {
@@ -172,11 +172,11 @@ public class CsgoMatchFeedObject {
 		this.team2Odds = team2Odds;
 	}
 
-	public String getMatchIdFromSource() {
+	public long getMatchIdFromSource() {
 		return matchIdFromSource;
 	}
 
-	public void setMatchIdFromSource(String matchIdFromSource) {
+	public void setMatchIdFromSource(long matchIdFromSource) {
 		this.matchIdFromSource = matchIdFromSource;
 	}
 

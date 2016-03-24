@@ -96,7 +96,7 @@ public class csgoSQLGateway {
 				stmt.setString(10, "Open");
 				stmt.setString(11, listObject.getStreamLink());
 				stmt.setBoolean(12, true);
-				stmt.setString(13, listObject.getMatchIdFromSource());
+				stmt.setLong(13, listObject.getMatchIdFromSource());
 				// update statement
 				stmt.setString(14, listObject.getMatchEvent());
 				stmt.setString(15, listObject.getMatchGameType());
@@ -112,7 +112,7 @@ public class csgoSQLGateway {
 				stmt.setString(23, "Open");
 				stmt.setString(24, listObject.getStreamLink());
 				stmt.setBoolean(25, true);
-				stmt.setString(26, listObject.getMatchIdFromSource().trim());
+				stmt.setLong(26, listObject.getMatchIdFromSource());
 				stmt.addBatch();
 			}
 
@@ -194,8 +194,8 @@ public class csgoSQLGateway {
 				stmt.setBoolean(1, false);
 				stmt.setString(2, listObject.getMatchWinner());
 
-				stmt.setString(3, listObject.getMatchIdFromSource().trim());
-				
+				stmt.setLong(3,listObject.getMatchIdFromSource());
+
 
 			}
 

@@ -211,7 +211,7 @@ public class csgoFinishResults {
 					tempObject.setMatchWinner(winner);
 					//tempObject.toString();
 					// System.out.println(tempObject.getMatchWinner());
-					tempObject.setMatchIdFromSource(String.valueOf(matchId));
+					tempObject.setMatchIdFromSource(matchId);
 					FinishResults.add(tempObject);
 				} else if (winner.equals("team2")) {
 					System.out.println("\t*** MATCH IS OVER! Winner is " +
@@ -225,7 +225,7 @@ public class csgoFinishResults {
 					tempObject.setMatchWinner(winner);
 					//tempObject.toString();
 					// System.out.println(tempObject.getMatchWinner());
-					tempObject.setMatchIdFromSource(String.valueOf(matchId));
+					tempObject.setMatchIdFromSource(matchId);
 					FinishResults.add(tempObject);
 				} else if (winner.equals("draw")) {
 					// System.out.println("\t*** MATCH IS OVER! No winner");
@@ -238,7 +238,7 @@ public class csgoFinishResults {
 					tempObject.setMatchWinner("draw");
 					//tempObject.toString();
 					// System.out.println(tempObject.getMatchWinner());
-					tempObject.setMatchIdFromSource(String.valueOf(matchId));
+					tempObject.setMatchIdFromSource(matchId);
 					FinishResults.add(tempObject);
 				} else {
 					// System.out.println("\t*** MATCH IS OVER! Unknown

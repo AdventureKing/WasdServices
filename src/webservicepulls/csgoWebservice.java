@@ -245,7 +245,8 @@ public class csgoWebservice {
 			/*
 			 * Get match id
 			 */
-			String matchId = StringUtils.substringBetween(feedObject.matchlink, "http://www.hltv.org/match/", "-");
+			String TempmatchId = StringUtils.substringBetween(feedObject.matchlink, "http://www.hltv.org/match/", "-");
+			Long matchId = Long.valueOf(TempmatchId);
 			System.out.println("Match id: " + matchId);
 
 			/*
