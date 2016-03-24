@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang3.StringUtils;
+
 /*
  * Stores an RSS feed
  */
@@ -51,6 +53,27 @@ public class CsgoMatchFeedObject {
 			this.statusOfGame = "Open";
 		else
 			this.statusOfGame = "Closed";
+		
+		String tempEventDes = matchlink + "STOPPINGPOINT";
+		//System.out.println(tempEventDes);
+		String tempEventDes1 = StringUtils.substringBetween(tempEventDes, "http://www.hltv.org/match/", "STOPPINGPOINT");
+		//System.out.println(tempEventDes1);
+		String[] eventAry = tempEventDes1.split("-");
+		String eventDes = "";
+		int i1 = 0;
+		for(String ev : eventAry){
+			if(i1== 0 || i1==1 || i1 ==2){
+				
+			}else
+			eventDes = eventDes + " " + ev;
+			
+			
+				
+				i1++;
+			
+		}
+		//System.out.println("Event Des: " + eventDes);
+		this.matchEvent = eventDes;
 	}
 
 	public String getTeamA() {

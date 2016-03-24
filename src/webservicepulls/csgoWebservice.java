@@ -247,25 +247,7 @@ public class csgoWebservice {
 			 */
 			String TempmatchId = StringUtils.substringBetween(feedObject.matchlink, "http://www.hltv.org/match/", "-");
 			Long matchId = Long.valueOf(TempmatchId);
-			String tempEventDes = feedObject.matchlink + "STOPPINGPOINT";
-			System.out.println(tempEventDes);
-			String tempEventDes1 = StringUtils.substringBetween(tempEventDes, "http://www.hltv.org/match/", "STOPPINGPOINT");
-			System.out.println(tempEventDes1);
-			String[] eventAry = tempEventDes1.split("-");
-			String eventDes = "";
-			int i1 = 0;
-			for(String ev : eventAry){
-				if(i1== 0 || i==1 || i ==2){
-					
-				}else
-				eventDes = eventDes + " " + ev;
-				System.out.println(ev);
-				
-					
-					i1++;
-				
-			}
-			System.out.println("Event Des: " + eventDes);
+			
 			//System.out.println("Match id: " + matchId);
 
 			/*
@@ -346,7 +328,7 @@ public class csgoWebservice {
 
 			//System.out.println("team 1 odds: " + team1Odds);
 			//System.out.println("team 2 odds: " + team2Odds);
-			System.out.println("\n");
+			//System.out.println("\n");
 			
 			//set all the data
 			feedObject.setMatchIdFromSource(matchId);
