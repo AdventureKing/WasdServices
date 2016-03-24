@@ -241,6 +241,12 @@ public class csgoWebservice {
 			org.jsoup.nodes.Document doc = Jsoup.parse(response);
 			// get the second iframe which is not the special one but the one i
 			// can use due to legal issues with the first one
+			
+			/*
+			 * Get match id
+			 */
+			String matchId = StringUtils.substringBetween(feedObject.matchlink, "http://www.hltv.org/match/", "-");
+			System.out.println("Match id: " + matchId);
 
 			/*
 			 * test print the match link
@@ -250,35 +256,56 @@ public class csgoWebservice {
 			 * Get match type best of need to trim and check but working so far
 			 */
 			org.jsoup.nodes.Element matchGameType = doc.getElementById("mapformatbox");
-			// String[] matchGameType_temp = matchGameType.text().split(" ");
-			// String matchType = matchGameType_temp[0] + matchGameType_temp[1];
-			System.out.println("MatchGameType: " + matchGameType.text());
+			
+			String matchGameType_value;
+			if(matchGameType.text().isEmpty()){
+				matchGameType_value = "not yet determined";
+			}else{
+				String[] matchGameType_temp = matchGameType.text().split(" ");
+				 matchGameType_value = matchGameType_temp[0] + " " + matchGameType_temp[1] + " "+ matchGameType_temp[2];
+			}
+			
+			System.out.println("MatchGameType: " + matchGameType_value);
 			/*
 			 * Get Stream Link THIS IS NOT WORKING
 			 */
 			org.jsoup.select.Elements streamLinkForParse = doc.getElementsByClass("hotmatchroundbox");
-			System.out.println(streamLinkForParse.size());
+			//System.out.println(streamLinkForParse.size());
 			org.jsoup.select.Elements streamLinkTemp = null;
 			streamLinkTemp = streamLinkForParse.get(0).getElementsByTag("a");
 			String streamLinkTemp1 = null;
 			String streamLinkTemp2 = null;
-			if (!streamLinkTemp.isEmpty()) {
+			org.jsoup.select.Elements otherStream = matchGameType.getElementsByTag("a");
+			String otherStreamChoice = null;
+			if(!otherStream.text().isEmpty()){
+
+			otherStreamChoice = otherStream.get(0).attr("href");
+			//System.out.println(otherStreamChoice);
+			}
+			if (!streamLinkTemp.isEmpty() ) {
 				streamLinkTemp1 = streamLinkTemp.get(0).attr("href");
 				if (streamLinkTemp1 == null) {
 
 				} else {
-					System.out.println("At this point is streamLinkTemp1 is : " + streamLinkTemp1);
+					//System.out.println("At this point is streamLinkTemp1 is : " + streamLinkTemp1);
 					streamLinkTemp2 = null;
+					try{
 					streamLinkTemp2 = getStreamFromEmbeded("http://www.hltv.org" + streamLinkTemp1);
-					if (streamLinkTemp2 == null) {
-						streamLinkTemp1 = "No Stream as of yet please check back later";
+					}catch (Exception e){
+						System.out.println("trouble pulling stream for matchId" + matchId);
+						
+					}
+					if (streamLinkTemp2 == null && otherStreamChoice == null) {
+						streamLinkTemp2 = "No Stream as of yet please check back later";
+					}else if(otherStreamChoice != null){
+						streamLinkTemp2 = otherStreamChoice;
 					}
 				}
 			} else {
-				streamLinkTemp1 = "No Stream as of yet please check back later";
+				streamLinkTemp2 = "No Stream as of yet please check back later";
 			}
 
-			System.out.println("Stream Link" + streamLinkTemp1);
+			System.out.println("Stream Link" + streamLinkTemp2);
 
 			/*
 			 * Get Team 1 and Team 2 odds THIS IS WORKING
@@ -299,12 +326,15 @@ public class csgoWebservice {
 
 			System.out.println("team 1 odds: " + team1Odds);
 			System.out.println("team 2 odds: " + team2Odds);
-
-			/*
-			 * Get match id
-			 */
-			String matchId = StringUtils.substringBetween(feedObject.matchlink, "http://www.hltv.org/match/", "-");
-			System.out.println("Match id: " + matchId);
+			System.out.println("\n");
+			
+			//set all the data
+			feedObject.setMatchIdFromSource(matchId);
+			feedObject.setMatchGameType(matchGameType_value);
+			//feedObject.setMatchEvent(matchEvent);
+			feedObject.setTeam1Odds(Float.parseFloat(team1Odds));
+			feedObject.setTeam2Odds(Float.parseFloat(team2Odds));
+			feedObject.setStreamLink(streamLinkTemp2);
 		}
 	}
 

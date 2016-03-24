@@ -55,7 +55,7 @@ public class csgoSQLGateway {
 			}
 			// create statment to push to database
 
-			String sql = "INSERT INTO csgoMatchData SET matchEvent=?,matchType=?,gameTitle=?,gameTimeStart=?,betCutoff=?,team1=?,team2=?,team1Odds=?,team2Odds=?,betOpen=?,streamLink=?,isVisOnSite=? ON DUPLICATE KEY UPDATE matchEvent=?,matchType=?,gameTitle=?,gameTimeStart=?,betCutoff=?,team1=?,team2=?,team1Odds=?,team2Odds=?,betOpen=?,streamLink=?,isVisOnSite=?";
+			String sql = "INSERT INTO csgoMatchData SET matchEvent=?,matchType=?,gameTitle=?,gameTimeStart=?,betCutoff=?,team1=?,team2=?,team1Odds=?,team2Odds=?,betOpen=?,streamLink=?,isVisOnSite=?,sourceId=? ON DUPLICATE KEY UPDATE matchEvent=?,matchType=?,gameTitle=?,gameTimeStart=?,betCutoff=?,team1=?,team2=?,team1Odds=?,team2Odds=?,betOpen=?,streamLink=?,isVisOnSite=?,sourceId=?";
 			stmt = (PreparedStatement) conn.prepareStatement(sql);
 
 			// set autocommit to false
@@ -87,6 +87,8 @@ public class csgoSQLGateway {
 				// need to in object split name effectivly to get team 2
 				stmt.setString(7, listObject.getTeamB());
 				// need to in object split name effectivly to get team 1 odds
+				//System.out.println("Having ISSUES_________________");
+				//System.out.println(listObject.toString());
 				stmt.setFloat(8, listObject.getTeam1Odds());
 				// need to in object split name effectivly to get team 2 odds
 				stmt.setFloat(9, listObject.getTeam2Odds());
@@ -94,22 +96,23 @@ public class csgoSQLGateway {
 				stmt.setString(10, "Open");
 				stmt.setString(11, listObject.getStreamLink());
 				stmt.setBoolean(12, true);
-
+				stmt.setString(13, listObject.getMatchIdFromSource());
 				// update statement
-				stmt.setString(13, listObject.getMatchEvent());
-				stmt.setString(14, listObject.getMatchGameType());
-				stmt.setString(15, listObject.getMatchtitle());
-				stmt.setTimestamp(16, startTime);
-				stmt.setTimestamp(17, newtime);
-				stmt.setString(18, listObject.getTeamA());
-				stmt.setString(19, listObject.getTeamB());
+				stmt.setString(14, listObject.getMatchEvent());
+				stmt.setString(15, listObject.getMatchGameType());
+				stmt.setString(16, listObject.getMatchtitle());
+				stmt.setTimestamp(17, startTime);
+				stmt.setTimestamp(18, newtime);
+				stmt.setString(19, listObject.getTeamA());
+				stmt.setString(20, listObject.getTeamB());
 				// need to in object split name effectivly to get team 1 odds
-				stmt.setFloat(20, listObject.getTeam1Odds());
+				stmt.setFloat(21, listObject.getTeam1Odds());
 				// need to in object split name effectivly to get team 2 odds
-				stmt.setFloat(21, listObject.getTeam2Odds());
-				stmt.setString(22, "Open");
-				stmt.setString(23, listObject.getStreamLink());
-				stmt.setBoolean(24, true);
+				stmt.setFloat(22, listObject.getTeam2Odds());
+				stmt.setString(23, "Open");
+				stmt.setString(24, listObject.getStreamLink());
+				stmt.setBoolean(25, true);
+				stmt.setString(26, listObject.getMatchIdFromSource().trim());
 				stmt.addBatch();
 			}
 
@@ -179,7 +182,7 @@ public class csgoSQLGateway {
 			}
 			// create statment to push to database
 			// TODO: fix this statement to update the visible column in the db
-			String sql = "UPDATE csgoMatchData SET isVisOnSite=?, matchWinner=? WHERE team1=? AND team2=?";
+			String sql = "UPDATE csgoMatchData SET isVisOnSite=?, matchWinner=? WHERE sourceId=?";
 			stmt = (PreparedStatement) conn.prepareStatement(sql);
 
 			// set autocommit to false
@@ -191,8 +194,8 @@ public class csgoSQLGateway {
 				stmt.setBoolean(1, false);
 				stmt.setString(2, listObject.getMatchWinner());
 
-				stmt.setString(3, listObject.getTeamA().trim());
-				stmt.setString(4, listObject.getTeamB().trim());
+				stmt.setString(3, listObject.getMatchIdFromSource().trim());
+				
 
 			}
 

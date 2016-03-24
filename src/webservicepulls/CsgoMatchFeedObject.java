@@ -29,6 +29,7 @@ public class CsgoMatchFeedObject {
 	private float team2Odds;
 	private String matchWinner = "";
 	private String streamLink = "";
+	private String matchIdFromSource;
 
 	public CsgoMatchFeedObject(String title, String link, String description, String pubDate, String matchGameType,
 			String teamA, String teamB, int statusOfGame) {
@@ -139,7 +140,7 @@ public class CsgoMatchFeedObject {
 				+ matchGameType + "\n" + ", teamA=" + teamA + "\n" + ", teamB=" + teamB + "\n" + ", statusOfGame="
 				+ statusOfGame + "\n" + ", betCuttoff=" + betCuttoff + "\n" + ", team1Odds=" + team1Odds + "\n"
 				+ ", team2Odds=" + team2Odds + "\n" + ", matchWinner=" + matchWinner + "\n" + ", streamLink="
-				+ streamLink + "\n" + "]";
+				+ streamLink + "\n" + "SourceID= " + matchIdFromSource + "\n" +"]";
 	}
 
 	public void setMatchGameType(String bestOf) {
@@ -169,6 +170,14 @@ public class CsgoMatchFeedObject {
 
 	public void setTeam2Odds(Float team2Odds) {
 		this.team2Odds = team2Odds;
+	}
+
+	public String getMatchIdFromSource() {
+		return matchIdFromSource;
+	}
+
+	public void setMatchIdFromSource(String matchIdFromSource) {
+		this.matchIdFromSource = matchIdFromSource;
 	}
 
 }

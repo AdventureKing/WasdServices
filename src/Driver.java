@@ -30,7 +30,7 @@ public class Driver {
 			e.printStackTrace();
 		}
 		csgoCallGenerateMatches.getHltvgoMatchPageinFo();
-		//System.out.println("going into database: " + csgoCallGenerateMatches.getHLTVGOFeedResults());
+		System.out.println("going into database: " + csgoCallGenerateMatches.getHLTVGOFeedResults());
 		//System.out.print("\n\n\n\n\n\n\n\n\n\n");
 		System.out.println("getting closed in database: " + csgoCallFinishMatches.getFinishResults().toString());
 
