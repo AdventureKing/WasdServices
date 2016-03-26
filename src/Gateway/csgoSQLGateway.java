@@ -64,6 +64,11 @@ public class csgoSQLGateway {
 
 			// put data into query
 			for (CsgoMatchFeedObject listObject : matchList) {
+				if(listObject.getTeamA().contains("No team") || listObject.getTeamB().contains("No team")){
+					continue;
+				}else{
+					
+				
 				java.sql.Timestamp startTime = listObject.getMatchpubDateHLTVGOCONVERT();
 				stmt.setString(1, listObject.getMatchEvent());
 				stmt.setString(2, listObject.getMatchGameType());
@@ -114,6 +119,7 @@ public class csgoSQLGateway {
 				stmt.setBoolean(25, true);
 				stmt.setLong(26, listObject.getMatchIdFromSource());
 				stmt.addBatch();
+				}
 			}
 
 			int[] count = stmt.executeBatch();

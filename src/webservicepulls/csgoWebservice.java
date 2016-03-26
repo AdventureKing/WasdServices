@@ -406,17 +406,37 @@ public class csgoWebservice {
 		if (ntmAmount == 1) {
 			matchDivs = doc.select("iframe").get(0);
 		} else if (ntmAmount == 2) {
-			matchDivs = doc.select("iframe").get(1);
+			org.jsoup.nodes.Element srcCheck = null;
+			srcCheck = matchDivs.getElementById("google_video_inner_static_iframe");
+			if(!srcCheck.equals(null)){
+				matchDivs = doc.select("iframe").get(0);
+			}else{
+				matchDivs = doc.select("iframe").get(1);
+			}
 		} else {
+			org.jsoup.select.Elements lastCheck = doc.getElementsByClass("player-channel-status ng-binding");
+			String finalCheck = lastCheck.get(0).attr("href");
+			if(finalCheck.isEmpty()){
 			System.out.println(
 					"didnt find anything your in trouble line 390:searching iframes csgoWebservice.java for watchCatagory: "
 							+ watchCatagory);
+			}
+			else{
+				System.out.println("FINAL CHECK : " + finalCheck);
+				return finalCheck;
+			}
 		}
 		String tempStr = matchDivs.attr("src");
 		if (tempStr.length() == 0) {
+			org.jsoup.select.Elements lastCheck = doc.getElementsByClass("player-channel-status ng-binding");
+			String finalCheck = lastCheck.get(0).attr("href");
+			if(finalCheck.isEmpty()){
 			System.err.println(
 					"Cannot find match Stream on the watchCatagory page we dun goofed line 384 csgoWebservice.java");
-
+			}else{
+				System.out.println("FINAL CHECK:" + finalCheck);
+				return finalCheck;
+			}
 		}
 		// System.out.println(tempStr);
 		streamLink = tempStr;
