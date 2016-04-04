@@ -188,7 +188,7 @@ public class csgoSQLGateway {
 			}
 			// create statment to push to database
 			// TODO: fix this statement to update the visible column in the db
-			String sql = "UPDATE csgoMatchData SET isVisOnSite=?, matchWinner=? WHERE sourceId=?";
+			String sql = "UPDATE csgoMatchData SET isVisOnSite=?, matchWinner=?, betOpen=? WHERE sourceId=?";
 			stmt = (PreparedStatement) conn.prepareStatement(sql);
 
 			// set autocommit to false
@@ -199,8 +199,9 @@ public class csgoSQLGateway {
 			for (CsgoMatchFeedObject listObject : matchList) {
 				stmt.setBoolean(1, false);
 				stmt.setString(2, listObject.getMatchWinner());
-
-				stmt.setLong(3,listObject.getMatchIdFromSource());
+				stmt.setString(3, "Closed");
+				stmt.setLong(4,listObject.getMatchIdFromSource());
+				
 				stmt.addBatch();
 
 			}
