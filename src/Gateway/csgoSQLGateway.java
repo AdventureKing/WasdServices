@@ -255,4 +255,94 @@ public class csgoSQLGateway {
 
 		System.out.println("Connection terminated");
 	}
+	
+	public void payoutCsgoMatches(ArrayList<CsgoMatchFeedObject> matchList){
+
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
+		try {
+			if (conn == null) {
+
+				conn = ds.getConnection();
+
+				System.out.println("connection made for AWS");
+			}
+			// create statment to push to database
+			// TODO: fix this statement to update the visible column in the db
+			String sql = "SELECT id,email,betAmount,matchTitle,teamPicked,matchId,matchOdds,PaidOut FROM csgoBetTable WHERE matchId=?";
+			stmt = (PreparedStatement) conn.prepareStatement(sql);
+
+			// set autocommit to false
+			conn.setAutoCommit(false);
+			// set time out so no lag
+
+			// put data into query
+			for (CsgoMatchFeedObject listObject : matchList) {
+				stmt.setLong(1, listObject.getMatchIdFromSource());
+				
+				stmt.addBatch();
+
+			}
+			if(matchList.size() > 0){
+			 rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				String emailToPay = rs.getString("email");
+				Long betAmount = rs.getLong("betAmount");
+				String matchTitle = rs.getString("matchTitle");
+				String teamPicked = rs.getString("teamPicked");
+				Long matchId = rs.getLong("matchId");
+				Float matchOdds= rs.getFloat("email");
+				Boolean PaidOut = rs.getBoolean("PaidOut");
+				System.out.println("Stuff in the db: " + emailToPay + betAmount + matchTitle + teamPicked + matchId + matchOdds + PaidOut);
+			}
+			}
+			conn.commit();
+			conn.setAutoCommit(true);
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+
+		} finally {
+
+			// close rs
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			// close stmt
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			// close conn
+			if (conn != null) {
+				try {
+					conn.setAutoCommit(true);
+					conn.close();
+
+					conn = null;
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		System.out.println("Connection terminated");
+	}
+	
 }

@@ -38,6 +38,7 @@ public class Driver {
 		csgoInsert.insertMatch(csgoCallGenerateMatches.getHLTVGOFeedResults());
 
 		csgoInsert.updateCsGoMatchTable(csgoCallFinishMatches.getFinishResults());
+		csgoInsert.payoutCsgoMatches(csgoCallFinishMatches.getFinishResults());
 	}
 
 }
