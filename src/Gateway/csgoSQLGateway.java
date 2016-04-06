@@ -269,8 +269,7 @@ public class csgoSQLGateway {
 			}
 			// create statment to push to database
 			// TODO: fix this statement to update the visible column in the db
-			String sql = "SELECT id,email,betAmount,matchTitle,teamPicked,matchId,matchOdds,PaidOut FROM csgoBetTable WHERE matchId=?";
-			stmt = (PreparedStatement) conn.prepareStatement(sql);
+			
 
 			// set autocommit to false
 			conn.setAutoCommit(false);
@@ -278,13 +277,10 @@ public class csgoSQLGateway {
 
 			// put data into query
 			for (CsgoMatchFeedObject listObject : matchList) {
-				stmt.setLong(1, listObject.getMatchIdFromSource());
-				
-				stmt.addBatch();
-
-			}
-			if(matchList.size() > 0){
-			 rs = stmt.executeQuery();
+			//stmt.setLong(1, listObject.getMatchIdFromSource());
+			String sql = "SELECT id,email,betAmount,matchTitle,teamPicked,matchId,matchOdds,PaidOut FROM csgoBetTable WHERE matchId="+listObject.getMatchIdFromSource();
+			stmt = (PreparedStatement) conn.prepareStatement(sql);
+			 rs = stmt.executeQuery(sql);
 			
 			while(rs.next()){
 				String emailToPay = rs.getString("email");
