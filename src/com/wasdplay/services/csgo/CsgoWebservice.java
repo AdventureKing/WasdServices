@@ -1,37 +1,22 @@
 package com.wasdplay.services.csgo;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.stream.XMLInputFactory;
 
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
-import org.jsoup.select.Elements;
-import org.omg.CORBA_2_3.portable.InputStream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -40,8 +25,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.w3c.dom.CharacterData;
 
-import org.jsoup.Jsoup;
-
 public class CsgoWebservice {
 
 	public SSLContext getContext() {
@@ -49,8 +32,8 @@ public class CsgoWebservice {
 	}
 
 	private SSLContext context = null;
-	private ArrayList<CsgoMatchFeedObject> feedResults;
-	private ArrayList<CsgoMatchFeedObject> FinishResults;
+	private ArrayList<CSGOMatch> feedResults;
+	private ArrayList<CSGOMatch> FinishResults;
 
 	public CsgoWebservice() {
 	}
@@ -58,7 +41,7 @@ public class CsgoWebservice {
 	// get newest matchs from hltv
 	public void hltvMatchFeedCall() {
 
-		feedResults = new ArrayList<CsgoMatchFeedObject>();
+		feedResults = new ArrayList<CSGOMatch>();
 		String response;
 		URL wsURL;
 		try {
@@ -166,7 +149,7 @@ public class CsgoWebservice {
 			line = (Element) gametype.item(0);
 			String tempgameType = getCharacterDataFromElement(line);
 
-			CsgoMatchFeedObject tempObject = new CsgoMatchFeedObject(tempName, templink, tempdes, tempPubDate,
+			CSGOMatch tempObject = new CSGOMatch(tempName, templink, tempdes, tempPubDate,
 					tempgameType, "", "", 0);
 			feedResults.add(tempObject);
 		}
@@ -183,7 +166,7 @@ public class CsgoWebservice {
 		String response;
 		URL wsURL;
 		int i = 0;
-		for (CsgoMatchFeedObject feedObject : feedResults) {
+		for (CSGOMatch feedObject : feedResults) {
 			try {
 
 				wsURL = new URL(feedResults.get(i).matchlink);
@@ -456,19 +439,19 @@ public class CsgoWebservice {
 		this.context = context;
 	}
 
-	public ArrayList<CsgoMatchFeedObject> getHLTVGOFeedResults() {
+	public ArrayList<CSGOMatch> getHLTVGOFeedResults() {
 		return feedResults;
 	}
 
-	public void setFeedResults(ArrayList<CsgoMatchFeedObject> feedResults) {
+	public void setFeedResults(ArrayList<CSGOMatch> feedResults) {
 		this.feedResults = feedResults;
 	}
 
-	public ArrayList<CsgoMatchFeedObject> getFinishResults() {
+	public ArrayList<CSGOMatch> getFinishResults() {
 		return FinishResults;
 	}
 
-	public void setsFinishResults(ArrayList<CsgoMatchFeedObject> loungeFinishResults) {
+	public void setsFinishResults(ArrayList<CSGOMatch> loungeFinishResults) {
 		this.FinishResults = loungeFinishResults;
 	}
 }

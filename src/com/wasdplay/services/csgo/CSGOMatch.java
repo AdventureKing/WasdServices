@@ -1,20 +1,17 @@
 package com.wasdplay.services.csgo;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
-import org.apache.commons.lang3.StringUtils;
+import com.wasdplay.services.game.Match;
 
 /*
  * Stores an RSS feed
  */
-public class CsgoMatchFeedObject {
+public class CSGOMatch extends Match {
 
 	final String matchtitle;
 
@@ -31,9 +28,8 @@ public class CsgoMatchFeedObject {
 	private float team2Odds;
 	private String matchWinner = "";
 	private String streamLink = "";
-	private long matchIdFromSource;
 
-	public CsgoMatchFeedObject(String title, String link, String description, String pubDate, String matchGameType,
+	public CSGOMatch(String title, String link, String description, String pubDate, String matchGameType,
 			String teamA, String teamB, int statusOfGame) {
 		this.matchtitle = title;
 		this.matchlink = link;
@@ -118,7 +114,6 @@ public class CsgoMatchFeedObject {
 		try {
 			insertDate = format.parse(matchpubDate);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -145,11 +140,10 @@ public class CsgoMatchFeedObject {
 				+ matchGameType + "\n" + ", teamA=" + teamA + "\n" + ", teamB=" + teamB + "\n" + ", statusOfGame="
 				+ statusOfGame + "\n" + ", betCuttoff=" + betCuttoff + "\n" + ", team1Odds=" + team1Odds + "\n"
 				+ ", team2Odds=" + team2Odds + "\n" + ", matchWinner=" + matchWinner + "\n" + ", streamLink="
-				+ streamLink + "\n" + "SourceID= " + matchIdFromSource + "\n" +"]";
+				+ streamLink + "\n" + "SourceID= " + matchId + "\n" +"]";
 	}
 
 	public void setMatchGameType(String bestOf) {
-		// TODO Auto-generated method stub
 		this.matchGameType = bestOf;
 	}
 
@@ -178,11 +172,11 @@ public class CsgoMatchFeedObject {
 	}
 
 	public long getMatchIdFromSource() {
-		return matchIdFromSource;
+		return matchId;
 	}
 
 	public void setMatchIdFromSource(long matchIdFromSource) {
-		this.matchIdFromSource = matchIdFromSource;
+		this.matchId = matchIdFromSource;
 	}
 
 }

@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,14 +21,14 @@ public class CsgoFinishResults {
 
 	private SSLContext context = null;
 
-	private ArrayList<CsgoMatchFeedObject> FinishResults;
+	private ArrayList<CSGOMatch> FinishResults;
 
 	public CsgoFinishResults() {
 	}
 
 	// get closed matches from csgoLounge
 	public void csgoMatchFinishFeedCall() throws JSONException {
-		setFinishResults(new ArrayList<CsgoMatchFeedObject>());
+		setFinishResults(new ArrayList<CSGOMatch>());
 		String urlRoot = "http://www.hltv.org";
 		String response;
 		URL wsURL;
@@ -92,19 +92,26 @@ public class CsgoFinishResults {
 		// match
 		Elements matchDivs = doc.getElementsByClass("matchListBox");
 		for (Element matchDiv : matchDivs) {
-			// match id is inside an onclick event
-			String tempStr = matchDiv.attr("onclick");
-			if (tempStr.length() == 0) {
-				System.err.println("Cannot find onclick event in matchListBox!");
+			// match id is inside a matchActionCell a now
+
+			String detailsLink;
+			Elements detailDivs = matchDiv.getElementsByClass("matchActionCell");
+			if (detailDivs.size() != 1) {
+				System.err.println("Found zero or too many Details");
 				continue;
 			}
-			// now match first single quote and grab the long after it
-			String[] parts = tempStr.split("'");
-			if (parts.length < 2) {
-				System.err.println("Cannot find start of id in onclick event in matchListBox!");
+			Element detailsDiv = detailDivs.first();
+			Elements detailsATags = detailsDiv.getElementsByTag("a");
+			if (detailsATags.size() != 1) {
+				System.err.println("Found zero or too many Details A tags");
 				continue;
 			}
-			long matchId = Long.parseLong(parts[1]);
+			Element detailsATag = detailsATags.first();
+			detailsLink = detailsATag.attr("href");
+			if(detailsLink == null)
+				continue;
+			
+			long matchId = Long.parseLong(StringUtils.substringBetween(detailsLink, "/match/", "-"));
 			// is match Finished?
 			String overYN = "No";
 			String winner = "";
@@ -176,20 +183,6 @@ public class CsgoFinishResults {
 			teamATag = teamATags.first();
 			team2Name = teamATag.text();
 			// get the match details link
-			String detailsLink = "";
-			Elements detailDivs = matchDiv.getElementsByClass("matchActionCell");
-			if (detailDivs.size() != 1) {
-				System.err.println("Found zero or too many Details entries for match id: " + matchId);
-				continue;
-			}
-			Element detailsDiv = detailDivs.first();
-			Elements detailsATags = detailsDiv.getElementsByTag("a");
-			if (teamATags.size() != 1) {
-				System.err.println("Found zero or too many Details A tags for match id: " + matchId);
-				continue;
-			}
-			Element detailsATag = detailsATags.first();
-			detailsLink = detailsATag.attr("href");
 			// got all the match info I want: matchId, team1Name, team2Name, and
 			// Details link
 			// so print it
@@ -205,7 +198,7 @@ public class CsgoFinishResults {
 					winner = team1Name;
 					String matchTitle = team1Name + " vs " + team2Name;
 					String matchLink = urlRoot + detailsLink;
-					CsgoMatchFeedObject tempObject = new CsgoMatchFeedObject(matchTitle, matchLink, "", "", "",
+					CSGOMatch tempObject = new CSGOMatch(matchTitle, matchLink, "", "", "",
 							team1Name, team2Name, 1);
 					// System.out.println(tempObject.getMatchWinner());
 					tempObject.setMatchWinner(winner);
@@ -219,7 +212,7 @@ public class CsgoFinishResults {
 					winner = team2Name;
 					String matchTitle = team1Name + " vs " + team2Name;
 					String matchLink = urlRoot + detailsLink;
-					CsgoMatchFeedObject tempObject = new CsgoMatchFeedObject(matchTitle, matchLink, "", "", "",
+					CSGOMatch tempObject = new CSGOMatch(matchTitle, matchLink, "", "", "",
 							team1Name, team2Name, 1);
 					// System.out.println(tempObject.getMatchWinner());
 					tempObject.setMatchWinner(winner);
@@ -232,7 +225,7 @@ public class CsgoFinishResults {
 					winner = "draw";
 					String matchTitle = team1Name + " vs " + team2Name;
 					String matchLink = urlRoot + detailsLink;
-					CsgoMatchFeedObject tempObject = new CsgoMatchFeedObject(matchTitle, matchLink, "", "", "",
+					CSGOMatch tempObject = new CSGOMatch(matchTitle, matchLink, "", "", "",
 							team1Name, team2Name, 1);
 					// System.out.println(tempObject.getMatchWinner());
 					tempObject.setMatchWinner("draw");
@@ -245,7 +238,6 @@ public class CsgoFinishResults {
 					// result!");
 				}
 			}
-			System.out.println();
 		}
 
 	}
@@ -254,11 +246,11 @@ public class CsgoFinishResults {
 		return context;
 	}
 
-	public ArrayList<CsgoMatchFeedObject> getFinishResults() {
+	public ArrayList<CSGOMatch> getFinishResults() {
 		return FinishResults;
 	}
 
-	public void setFinishResults(ArrayList<CsgoMatchFeedObject> finishResults) {
+	public void setFinishResults(ArrayList<CSGOMatch> finishResults) {
 		FinishResults = finishResults;
 	}
 
