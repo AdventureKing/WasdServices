@@ -1,4 +1,4 @@
-package com.wasdplay.services;
+package com.wasdplay.services.csgo;
 
 import java.sql.Date;
 import java.sql.Timestamp;

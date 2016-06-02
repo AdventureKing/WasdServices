@@ -1,4 +1,4 @@
-package com.wasdplay.services;
+package com.wasdplay.services.csgo;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -17,13 +17,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class csgoFinishResults {
+public class CsgoFinishResults {
 
 	private SSLContext context = null;
 
 	private ArrayList<CsgoMatchFeedObject> FinishResults;
 
-	public csgoFinishResults() {
+	public CsgoFinishResults() {
 	}
 
 	// get closed matches from csgoLounge

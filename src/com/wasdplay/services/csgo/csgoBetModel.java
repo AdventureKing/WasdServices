@@ -1,6 +1,6 @@
 package com.wasdplay.services.csgo;
 
-public class csgoBetModel {
+public class CsgoBetModel {
 	String emailToPay;
 	Long betAmount;
 	String matchTitle;
@@ -9,7 +9,7 @@ public class csgoBetModel {
 	Float matchOdds;
 	Boolean PaidOut;
 	
-	public csgoBetModel( String emailToPay,Long betAmount,String matchTitle,String teamPicked,Long matchId,Float matchOdds,Boolean PaidOut){
+	public CsgoBetModel( String emailToPay,Long betAmount,String matchTitle,String teamPicked,Long matchId,Float matchOdds,Boolean PaidOut){
 		this.emailToPay = emailToPay;
 		this.betAmount = betAmount;
 		this.matchTitle = matchTitle;

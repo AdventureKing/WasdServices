@@ -1,4 +1,4 @@
-package com.wasdplay.services;
+package com.wasdplay.services.csgo;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
-public class csgoSQLGateway {
+public class CsgoSQLGateway {
 
 	MysqlDataSource ds = new MysqlDataSource();
 	Connection conn = null;
@@ -26,7 +26,7 @@ public class csgoSQLGateway {
 		// ds.setPassword("Grap3R0d929!");
 	}
 
-	public csgoSQLGateway() {
+	public CsgoSQLGateway() {
 		setDsUrl();
 		// setDsUser();
 		// setDsPassword();

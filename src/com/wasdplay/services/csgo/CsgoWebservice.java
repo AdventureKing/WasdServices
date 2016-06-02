@@ -1,4 +1,4 @@
-package com.wasdplay.services;
+package com.wasdplay.services.csgo;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -42,7 +42,7 @@ import org.w3c.dom.CharacterData;
 
 import org.jsoup.Jsoup;
 
-public class csgoWebservice {
+public class CsgoWebservice {
 
 	public SSLContext getContext() {
 		return context;
@@ -52,7 +52,7 @@ public class csgoWebservice {
 	private ArrayList<CsgoMatchFeedObject> feedResults;
 	private ArrayList<CsgoMatchFeedObject> FinishResults;
 
-	public csgoWebservice() {
+	public CsgoWebservice() {
 	}
 
 	// get newest matchs from hltv
