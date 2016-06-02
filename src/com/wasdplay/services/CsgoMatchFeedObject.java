@@ -1,4 +1,4 @@
-package webservicepulls;
+package com.wasdplay.services;
 
 import java.sql.Date;
 import java.sql.Timestamp;

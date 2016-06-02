@@ -1,16 +1,11 @@
-package Gateway;
+package com.wasdplay.services;
 
-import java.security.Timestamp;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
-
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
-
-import webservicepulls.CsgoMatchFeedObject;
 
 public class csgoSQLGateway {
 

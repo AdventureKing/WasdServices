@@ -1,4 +1,4 @@
-package webservicepulls;
+package com.wasdplay.services;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;

@@ -1,14 +1,9 @@
+package com.wasdplay.services;
 
 //import Gateway.csgoSQLGateway;
-import webservicepulls.CsgoMatchFeedObject;
-import webservicepulls.csgoFinishResults;
-import webservicepulls.csgoWebservice;
-
 import java.util.ArrayList;
 
 import org.json.JSONException;
-
-import Gateway.csgoSQLGateway;
 
 public class Driver {
 
