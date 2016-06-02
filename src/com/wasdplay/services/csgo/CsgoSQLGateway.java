@@ -10,8 +10,9 @@ import java.util.List;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import com.wasdplay.services.backend.Gateway;
+import com.wasdplay.services.game.Match;
 
-public class CsgoSQLGateway<T> extends Gateway<T> {
+public class CsgoSQLGateway<T extends Match> extends Gateway<T> {
 	private MysqlDataSource ds = new MysqlDataSource();
 	private Connection conn = null;
 
@@ -155,8 +156,9 @@ public class CsgoSQLGateway<T> extends Gateway<T> {
 
 	}
 
-	public void updateCsGoMatchTable(ArrayList<CSGOMatch> matchList) {
-
+	@SuppressWarnings("unchecked")
+	@Override
+	public void updateMatches(List<T> matches) {
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		try {
@@ -176,7 +178,7 @@ public class CsgoSQLGateway<T> extends Gateway<T> {
 			// set time out so no lag
 
 			// put data into query
-			for (CSGOMatch listObject : matchList) {
+			for (CSGOMatch listObject : (List<CSGOMatch>)matches) {
 				stmt.setBoolean(1, false);
 				stmt.setString(2, listObject.getMatchWinner());
 				stmt.setString(3, "Closed");

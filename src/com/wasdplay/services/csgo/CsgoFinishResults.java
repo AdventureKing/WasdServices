@@ -93,6 +93,7 @@ public class CsgoFinishResults {
 		Elements matchDivs = doc.getElementsByClass("matchListBox");
 		for (Element matchDiv : matchDivs) {
 			// match id is inside a matchActionCell a now
+			System.out.println(matchDiv);
 
 			String detailsLink;
 			Elements detailDivs = matchDiv.getElementsByClass("matchActionCell");
